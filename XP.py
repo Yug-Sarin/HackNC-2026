@@ -1,5 +1,10 @@
 current_xp: int = 0
 
+#Event class documentation below:
+
+#Parts of Event class such as event_id was explained and assisted by PromptLab ChatGPT
+#Date accessed: October 10, 2026
+
 class Event:
     name: str
     difficulty: str = ""
@@ -45,7 +50,12 @@ class Event:
             self.difficulty = "very hard"
 
         return self.difficulty
+    
 
+#Profile class documentation below:
+
+#Profile class created with assistance and template from PromptLab ChatGPT
+#Open AI, Accessed date: October 10, 2026
 
 class Profile:
     username: str
@@ -102,5 +112,3 @@ profile_one.rsvp_to_event(another_event)
 profile_one.complete_event(another_event)
 
 print(f"{profile_one.username} has {current_xp} XP.")
-
-    
