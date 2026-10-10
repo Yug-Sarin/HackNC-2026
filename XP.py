@@ -1,4 +1,4 @@
-current_xp:int = 0
+current_xp: int = 0
 
 class Event:
     name: str
