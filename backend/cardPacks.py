@@ -31,7 +31,7 @@ class Shop:
             else:
                 playerCards.append("Octopus (Rare)")
 
-        if packType == "premium":
+        elif packType == "premium":
             chance = random.randint(1, 10)
             if chance < 4:
                 playerCards.append("Shark (Rare)")
@@ -45,7 +45,7 @@ class Shop:
             else:
                 playerCards.append("Kraken (Legendary)")
 
-        if packType == "legendary":
+        elif packType == "legendary":
             chance = random.randint(1, 10)
             if chance < 4:
                 playerCards.append("Mermaid (Epic)")
@@ -60,4 +60,3 @@ class Shop:
                 playerCards.append("Leviathan (Mythic)")
 
         return playerCards
-            
