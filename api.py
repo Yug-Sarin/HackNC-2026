@@ -3,8 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import random
 
-from XP import Event, Profile
-from cardpacks import Shop
+from backend.XP import Event, Profile
+from backend.cardPacks import Shop
 
 app = FastAPI(title="HackNC-2026 API")
 
@@ -209,7 +209,7 @@ def chat_delphin(payload: ChatMessage):
     responses = [
         "You are doing amazing! Keep building your campus sustainability streak. 🌊",
         "Small actions create big change. One volunteer step today makes tomorrow better. 🐬",
-        "You’ve got momentum—finish one more task and keep the energy going! 💪",
+        "You've got momentum—finish one more task and keep the energy going! 💪",
         "Every clean-up, donation, and act of service matters. Keep going! 🌍",
     ]
     return {"response": random.choice(responses)}
