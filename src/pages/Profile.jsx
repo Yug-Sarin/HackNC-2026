@@ -2,31 +2,10 @@ import { useState, useEffect } from "react";
 import api from "../api";
 
 const cardRarities = {
-  "🐟": "common",
-  "🐠": "common",
-  "🦑": "uncommon",
-  "🦈": "rare",
-  "🐙": "rare",
-  "🦐": "common",
-  "🦞": "uncommon",
-  "🐚": "uncommon",
-  "👑": "legendary",
-};
-
-const getRarityColor = (card) => {
-  const rarity = cardRarities[card] || "unknown";
-  const colors = {
-    common: "#86efac",
-    uncommon: "#5ac8fa",
-    rare: "#f59e0b",
-    legendary: "#ff3b30",
-    unknown: "#888",
-  };
-  return colors[rarity];
-};
-
-const getRarityLabel = (card) => {
-  return cardRarities[card] || "unknown";
+  common: "#86efac",
+  uncommon: "#5ac8fa",
+  rare: "#f59e0b",
+  legendary: "#ff3b30",
 };
 
 export default function Profile() {
@@ -85,6 +64,12 @@ export default function Profile() {
     localStorage.removeItem("username");
   }
 
+  const getRarityColor = (card) => {
+    if (!card) return "#888";
+    const rarity = card.toLowerCase();
+    return cardRarities[rarity] || "#888";
+  };
+
   return (
     <div>
       <div className="card">
@@ -112,7 +97,7 @@ export default function Profile() {
 
       {profile && (
         <>
-          <div className="card">
+          <div className="card luxury-card">
             <h2>📊 Your Stats</h2>
             <div className="grid stats-grid">
               <div className="stat-card">
@@ -134,7 +119,7 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className="card">
+          <div className="card luxury-card">
             <h2>🎴 Your Cards ({cards.length})</h2>
             {cards.length === 0 ? (
               <p className="empty">No cards yet. Visit the shop to buy packs.</p>
@@ -143,7 +128,6 @@ export default function Profile() {
                 {cards.map((card, idx) => (
                   <div key={idx} className="card-display" style={{ borderColor: getRarityColor(card) }}>
                     <div className="card-emoji">{card}</div>
-                    <div className="card-rarity">{getRarityLabel(card)}</div>
                   </div>
                 ))}
               </div>
