@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import api from "../api";
 
 const cardEmojis = {
-  🐟: { rarity: "common", color: "#86efac" },
-  🐠: { rarity: "common", color: "#86efac" },
-  🦑: { rarity: "uncommon", color: "#5ac8fa" },
-  🦈: { rarity: "rare", color: "#f59e0b" },
-  🐙: { rarity: "rare", color: "#f59e0b" },
-  🦐: { rarity: "common", color: "#86efac" },
-  🦞: { rarity: "uncommon", color: "#5ac8fa" },
-  🐚: { rarity: "uncommon", color: "#5ac8fa" },
-  👑: { rarity: "legendary", color: "#ff3b30" },
+  "🐟": { rarity: "common", color: "#86efac" },
+  "🐠": { rarity: "common", color: "#86efac" },
+  "🦑": { rarity: "uncommon", color: "#5ac8fa" },
+  "🦈": { rarity: "rare", color: "#f59e0b" },
+  "🐙": { rarity: "rare", color: "#f59e0b" },
+  "🦐": { rarity: "common", color: "#86efac" },
+  "🦞": { rarity: "uncommon", color: "#5ac8fa" },
+  "🐚": { rarity: "uncommon", color: "#5ac8fa" },
+  "👑": { rarity: "legendary", color: "#ff3b30" },
 };
 
 export default function Shop() {
