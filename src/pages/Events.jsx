@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
@@ -18,7 +18,7 @@ export default function Events() {
 
   async function loadEvents() {
     try {
-      const res = await axios.get("/api/events");
+      const res = await api.get("/api/events");
       setEvents(res.data);
     } catch (error) {
       setMessage("Error loading events");
@@ -32,7 +32,7 @@ export default function Events() {
     }
     setLoading(true);
     try {
-      await axios.post("/api/events/create", {
+      await api.post("/api/events/create", {
         name,
         event_id: eventId,
         duration: parseFloat(duration),
@@ -54,7 +54,7 @@ export default function Events() {
       return;
     }
     try {
-      await axios.post(`/api/profile/${username}/rsvp/${id}`);
+      await api.post(`/api/profile/${username}/rsvp/${id}`);
       setMessage("RSVP successful! ✅");
     } catch (error) {
       setMessage(error.response?.data?.detail || "Error RSVP-ing");
@@ -67,7 +67,7 @@ export default function Events() {
       return;
     }
     try {
-      await axios.post(`/api/profile/${username}/complete/${id}`);
+      await api.post(`/api/profile/${username}/complete/${id}`);
       setMessage("Event completed! You earned XP! ✅");
     } catch (error) {
       setMessage(error.response?.data?.detail || "Error completing event");

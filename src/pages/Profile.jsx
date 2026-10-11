@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 
 export default function Profile() {
   const [username, setUsername] = useState("");
@@ -19,11 +19,11 @@ export default function Profile() {
 
   async function loadProfile(name) {
     try {
-      const res = await axios.get(`/api/profile/${name}`);
+      const res = await api.get(`/api/profile/${name}`);
       setProfile(res.data);
-      const cardsRes = await axios.get(`/api/profile/${name}/cards`);
+      const cardsRes = await api.get(`/api/profile/${name}/cards`);
       setCards(cardsRes.data.cards);
-      const moneyRes = await axios.get(`/api/profile/${name}/money`);
+      const moneyRes = await api.get(`/api/profile/${name}/money`);
       setMoney(moneyRes.data.money);
     } catch (error) {
       setMessage("Error loading profile");
@@ -37,7 +37,7 @@ export default function Profile() {
     }
     setLoading(true);
     try {
-      const res = await axios.post("/api/profile/create", { username });
+      const res = await api.post("/api/profile/create", { username });
       setProfile(res.data);
       localStorage.setItem("username", username);
       setMessage("Profile created! ✅");

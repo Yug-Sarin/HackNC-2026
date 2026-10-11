@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 export default function Delphin() {
   const [message, setMessage] = useState("");
@@ -17,7 +17,7 @@ export default function Delphin() {
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/delphin/chat", { message: userMsg });
+      const res = await api.post("/api/delphin/chat", { message: userMsg });
       setMessages((prev) => [...prev, { role: "delphin", content: res.data.response }]);
     } catch (error) {
       setMessages((prev) => [...prev, { role: "delphin", content: "Delphin is taking a swim break! Try again later. 🌊" }]);

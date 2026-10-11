@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 
 export default function Shop() {
   const [username, setUsername] = useState(null);
@@ -24,9 +24,9 @@ export default function Shop() {
 
   async function loadUserData(name) {
     try {
-      const moneyRes = await axios.get(`/api/profile/${name}/money`);
+      const moneyRes = await api.get(`/api/profile/${name}/money`);
       setMoney(moneyRes.data.money);
-      const cardsRes = await axios.get(`/api/profile/${name}/cards`);
+      const cardsRes = await api.get(`/api/profile/${name}/cards`);
       setCards(cardsRes.data.cards);
     } catch (error) {
       setMessage("Error loading data");
@@ -37,7 +37,7 @@ export default function Shop() {
     if (!username) return;
     setLoading(true);
     try {
-      const res = await axios.post(`/api/shop/buy-pack/${username}`, { pack_type: packType });
+      const res = await api.post(`/api/shop/buy-pack/${username}`, { pack_type: packType });
       if (res.data.success) {
         setMessage(`You got: ${res.data.card_gained}! 🎉`);
         setMoney(res.data.money_remaining);
