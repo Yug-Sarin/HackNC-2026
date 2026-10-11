@@ -3,5 +3,5 @@ uvicorn==0.30.6
 pydantic==2.9.2
 requests==2.32.2
 beautifulsoup4==4.12.2
-ddgs==3.9.0
+ddgs==9.16.0
 python-dotenv==1.0.0
