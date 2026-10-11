@@ -22,34 +22,73 @@ export default function Profile() {
   }, []);
 
   async function loadProfile(name) {
+    setLoading(true);
+    setMessage("");
     try {
-      const res = await api.get(`/api/profile/${name}`);
+      const encodedName = encodeURIComponent(name);
+      const [res, cardsRes, moneyRes] = await Promise.all([
+        api.get(`/api/profile/${encodedName}`),
+        api.get(`/api/profile/${encodedName}/cards`),
+        api.get(`/api/profile/${encodedName}/money`),
+      ]);
       setProfile(res.data);
-      const cardsRes = await api.get(`/api/profile/${name}/cards`);
       setCards(cardsRes.data.cards || []);
-      const moneyRes = await api.get(`/api/profile/${name}/money`);
       setMoney(moneyRes.data.money || 0);
-    } catch {
-      setMessage("Error loading profile. Make sure the backend server is running!");
+      return res.data;
+    } catch (error) {
+      setProfile(null);
+      setCards([]);
+      setMoney(0);
+      if (error.response?.status === 404) {
+        localStorage.removeItem("username");
+        setMessage("That saved profile was not found. Enter your username to sign in or create a profile.");
+      } else {
+        setMessage("Error loading profile. Make sure the backend server is running!");
+      }
+      return null;
+    } finally {
+      setLoading(false);
     }
   }
 
   async function createProfile() {
-    if (!username.trim()) {
+    const name = username.trim();
+    if (!name) {
       setMessage("Please enter a username");
       return;
     }
     setLoading(true);
+    setMessage("");
     try {
-      const res = await api.post("/api/profile/create", { username: username.trim() });
-      setProfile(res.data);
-      localStorage.setItem("username", username.trim());
-      setMessage("Profile created! You received $100.00 starting eco-funds! 🎉");
-      setCards([]);
-      setMoney(100.0);
-      playChimeSound();
+      // Profiles have no password in the existing API, so username is the sign-in key.
+      try {
+        await api.get(`/api/profile/${encodeURIComponent(name)}`);
+        localStorage.setItem("username", name);
+        await loadProfile(name);
+        setMessage(`Welcome back, ${name}!`);
+      } catch (error) {
+        if (error.response?.status !== 404) throw error;
+        const res = await api.post("/api/profile/create", { username: name });
+        setProfile(res.data);
+        localStorage.setItem("username", name);
+        setMessage("Profile created! You received $100.00 starting eco-funds! 🎉");
+        setCards([]);
+        setMoney(100.0);
+        playChimeSound();
+      }
     } catch (error) {
-      setMessage(error.response?.data?.detail || "Error creating profile");
+      // A profile could be created by another request between the lookup and create.
+      if (error.response?.status === 400) {
+        try {
+          localStorage.setItem("username", name);
+          await loadProfile(name);
+          setMessage(`Welcome back, ${name}!`);
+        } catch {
+          setMessage(error.response?.data?.detail || "Unable to sign in or create profile");
+        }
+      } else {
+        setMessage(error.response?.data?.detail || "Unable to sign in or create profile");
+      }
     } finally {
       setLoading(false);
     }
@@ -95,7 +134,7 @@ export default function Profile() {
 
         {!profile ? (
           <fieldset className="xp-groupbox">
-            <legend className="xp-legend">Log On / Create Account</legend>
+            <legend className="xp-legend">{localStorage.getItem("username") ? "Loading Profile" : "Sign In / Create Account"}</legend>
             <p style={{ marginBottom: "8px", color: "#333" }}>
               Type your student handle below to access your campus sustainability account.
             </p>
@@ -106,7 +145,7 @@ export default function Profile() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") createProfile();
                 }}
-                placeholder="User name (e.g. EcoExplorer)"
+                placeholder="Username (existing or new)"
               />
               <button
                 onClick={createProfile}
@@ -114,7 +153,7 @@ export default function Profile() {
                 className="btn btn-primary"
                 style={{ width: "auto" }}
               >
-                {loading ? "Logging in..." : "OK / Create"}
+                {loading ? "Please wait..." : "Sign In / Create"}
               </button>
             </div>
           </fieldset>

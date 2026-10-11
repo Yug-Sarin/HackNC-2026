@@ -2,9 +2,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import random
+import math
+import requests
 
 from backend.XP import Event, Profile
 from backend.cardPacks import Shop
+from backend.locationFinder import find_opportunities_near
 
 from dotenv import load_dotenv
 import os
@@ -46,6 +49,11 @@ class CardPackRequest(BaseModel):
 class ChatMessage(BaseModel):
     message: str
 
+class NearbyOpportunitiesRequest(BaseModel):
+    latitude: float
+    longitude: float
+    radius_km: float = 25
+
 @app.get("/api/health")
 def health():
     return {"status": "ok", "message": "HackNC-2026 API is running"}
@@ -78,6 +86,46 @@ def list_events():
             "description": event.description(),
         })
     return results
+
+@app.post("/api/opportunities/nearby")
+def nearby_opportunities(payload: NearbyOpportunitiesRequest):
+    if not math.isfinite(payload.latitude) or not -90 <= payload.latitude <= 90:
+        raise HTTPException(status_code=400, detail="Latitude must be between -90 and 90")
+    if not math.isfinite(payload.longitude) or not -180 <= payload.longitude <= 180:
+        raise HTTPException(status_code=400, detail="Longitude must be between -180 and 180")
+    if not math.isfinite(payload.radius_km) or not 1 <= payload.radius_km <= 100:
+        raise HTTPException(status_code=400, detail="Radius must be between 1 and 100 km")
+
+    try:
+        place = requests.get(
+            "https://nominatim.openstreetmap.org/reverse",
+            params={"lat": payload.latitude, "lon": payload.longitude, "format": "jsonv2"},
+            headers={"User-Agent": "HackNC-2026 volunteer finder"},
+            timeout=10,
+        )
+        place.raise_for_status()
+        address = place.json().get("address", {})
+        city = next((address.get(key) for key in ("city", "town", "village", "municipality", "county") if address.get(key)), "Nearby")
+        region = address.get("state") or address.get("region") or address.get("country") or ""
+        opportunities, groups = find_opportunities_near(
+            payload.latitude, payload.longitude, city, region, payload.radius_km
+        )
+        serialized = []
+        for opportunity in opportunities:
+            item = dict(opportunity)
+            if item.get("date"):
+                item["date"] = item["date"].isoformat()
+            item.pop("time_sort", None)
+            serialized.append(item)
+        return {
+            "location": {"city": city, "region": region},
+            "groups_scanned": len(groups),
+            "opportunities": serialized,
+        }
+    except requests.RequestException as error:
+        raise HTTPException(status_code=502, detail="Could not look up your location or nearby listings") from error
+    except Exception as error:
+        raise HTTPException(status_code=502, detail="Nearby opportunity search failed") from error
 
 @app.get("/api/events/{event_id}")
 def get_event(event_id: int):

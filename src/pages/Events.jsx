@@ -20,6 +20,10 @@ export default function Events() {
   const [username, setUsername] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [message, setMessage] = useState("");
+  const [nearbyOpportunities, setNearbyOpportunities] = useState([]);
+  const [nearbyLocation, setNearbyLocation] = useState(null);
+  const [nearbyLoading, setNearbyLoading] = useState(false);
+  const [nearbyMessage, setNearbyMessage] = useState("");
 
   useEffect(() => {
     const saved = localStorage.getItem("username");
@@ -110,6 +114,50 @@ export default function Events() {
       loadUserProfile(username);
     } catch (error) {
       setMessage(error.response?.data?.detail || "Error completing event");
+    }
+  }
+
+  async function findNearbyOpportunities() {
+    if (!navigator.geolocation) {
+      setNearbyMessage("Location access is not available in this browser.");
+      return;
+    }
+    setNearbyLoading(true);
+    setNearbyMessage("Getting your location and searching nearby volunteer listings...");
+    setNearbyOpportunities([]);
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: false,
+          timeout: 15000,
+          maximumAge: 300000,
+        });
+      });
+      const { latitude, longitude } = position.coords;
+      const result = await api.post("/api/opportunities/nearby", {
+        latitude,
+        longitude,
+        radius_km: 25,
+      }, { timeout: 180000 });
+      setNearbyOpportunities(result.data.opportunities || []);
+      setNearbyLocation(result.data.location);
+      setNearbyMessage(
+        result.data.opportunities?.length
+          ? `Found ${result.data.opportunities.length} volunteer listing(s) near ${result.data.location?.city || "you"}.`
+          : `No listings were found near ${result.data.location?.city || "you"}. Try again later or check local organizations directly.`
+      );
+    } catch (error) {
+      const detail = error.response?.data?.detail;
+      const geoError = error.code;
+      setNearbyMessage(
+        detail || (geoError === 1
+          ? "Location permission was denied. Allow location access in your browser and try again."
+          : geoError === 3
+            ? "Your location took too long to load. Please try again."
+            : "Could not find nearby listings. Check your connection and try again.")
+      );
+    } finally {
+      setNearbyLoading(false);
     }
   }
 
@@ -307,6 +355,60 @@ export default function Events() {
               );
             })}
           </div>
+        )}
+      </div>
+
+      <div className="card">
+        <div className="window-header">
+          <span className="window-title">
+            <span>📍</span>
+            <span>Volunteer Finder - Opportunities Near You</span>
+          </span>
+          <div className="window-dots">
+            <span className="xp-btn-ctrl xp-btn-min">_</span>
+            <span className="xp-btn-ctrl xp-btn-max">□</span>
+            <span className="xp-btn-ctrl xp-btn-close">✕</span>
+          </div>
+        </div>
+        <p style={{ marginBottom: "8px", color: "#333" }}>
+          Search local volunteer organizations and event listings within about 25 km. Your browser will ask before sharing your location.
+        </p>
+        <button className="btn btn-primary" onClick={findNearbyOpportunities} disabled={nearbyLoading}>
+          {nearbyLoading ? "Searching nearby..." : "📍 Find Events Near Me"}
+        </button>
+        {nearbyMessage && <div className="message" role="status" style={{ marginTop: "8px" }}>{nearbyMessage}</div>}
+        {nearbyLocation && nearbyOpportunities.length > 0 && (
+          <div className="grid" style={{ marginTop: "12px" }}>
+            {nearbyOpportunities.map((opportunity, index) => (
+              <article className="event-card" key={`${opportunity.title}-${opportunity.date || "ongoing"}-${index}`}>
+                <div>
+                  <h4>{opportunity.title}</h4>
+                  <div className="event-meta">
+                    <span className="aero-badge">{opportunity.org}</span>
+                    {opportunity.date && <span className="aero-badge">📅 {opportunity.date}{opportunity.time ? ` · ${opportunity.time}` : ""}</span>}
+                    {opportunity.schedule && <span className="aero-badge">{opportunity.schedule}</span>}
+                  </div>
+                  {(opportunity.location || opportunity.org_address) && (
+                    <p style={{ fontSize: "11px", color: "#444", margin: "6px 0" }}>
+                      📍 {opportunity.location || opportunity.org_address}
+                    </p>
+                  )}
+                  {opportunity.description && <p style={{ fontSize: "11px", color: "#444", margin: "6px 0", lineHeight: "1.4" }}>{opportunity.description}</p>}
+                  <p style={{ fontSize: "10px", color: "#555" }}>{opportunity.category}</p>
+                </div>
+                {/^https?:\/\//i.test(opportunity.link || "") && (
+                  <a className="btn btn-primary" href={opportunity.link} target="_blank" rel="noreferrer">
+                    Details & Sign Up ↗
+                  </a>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
+        {nearbyLocation && nearbyOpportunities.length === 0 && !nearbyLoading && (
+          <p style={{ marginTop: "8px", fontSize: "11px", color: "#555" }}>
+            The finder scanned nearby organization websites. Listings may be missing when a site blocks automated access or loads events dynamically.
+          </p>
         )}
       </div>
     </div>

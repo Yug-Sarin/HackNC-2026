@@ -655,6 +655,32 @@ def finalize(opps):
     return out
 
 
+def find_opportunities_near(lat, lon, city, region, radius_km=25, max_sites=20, max_details=15):
+    """Return nearby volunteer listings for an API caller with browser-provided location."""
+    orgs = discover_via_osm(city, region, lat, lon, radius_km)
+    if city and region:
+        for domain, org in discover_via_web(city, region).items():
+            orgs.setdefault(domain, org)
+
+    candidates = list(orgs.values())[:max_sites]
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        results = list(pool.map(scan_site, candidates))
+
+    opportunities = [opp for group in results for opp in group["opportunities"]]
+    needs_detail = [opp for opp in opportunities
+                    if opp["link"] != opp["page"] and not (opp["date"] and opp["time"] and opp["location"])]
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        list(pool.map(enrich, needs_detail[:max_details]))
+
+    opportunities = finalize(opportunities)
+    opportunities.sort(key=lambda opp: (
+        opp["date"] is None,
+        opp["date"] or TODAY,
+        opp["time_sort"] if opp["time_sort"] is not None else 1440,
+    ))
+    return opportunities, results
+
+
 # ------------------------------------------------------------------ summary
 
 def format_when(o):
