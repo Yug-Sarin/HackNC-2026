@@ -4,21 +4,13 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Events from "./pages/Events";
 import Shop from "./pages/Shop";
-import Delphin from "./pages/Delphin";
 import api from "./api";
 import { playBubbleSound, isSoundEnabled, setSoundEnabled } from "./utils/soundHelper";
 
-const companionMessages = [
-  "Welcome to Campus Sustainability! Tiny eco actions add up. 🌊",
-  "Ready to find a volunteer event and help make campus greener? 🌿",
-  "Every sustainable choice counts toward restoring the bay! 🐬",
-  "Check the Events tab to complete tasks and earn XP! ⭐",
-  "Visit the Card Shop to collect rare marine creatures! 🎴",
-];
-
 export default function App() {
   const [speechOpen, setSpeechOpen] = useState(false);
-  const [messageIndex, setMessageIndex] = useState(0);
+  const [speechText, setSpeechText] = useState("");
+  const [speechLoading, setSpeechLoading] = useState(false);
   const [soundOn, setSoundOn] = useState(isSoundEnabled());
   const [userStats, setUserStats] = useState({ username: null, xp: 0, money: 0 });
 
@@ -49,10 +41,20 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleCompanionClick = () => {
+  const handleCompanionClick = async () => {
     playBubbleSound();
     setSpeechOpen(true);
-    setMessageIndex((prev) => (prev + 1) % companionMessages.length);
+    setSpeechLoading(true);
+    try {
+      const res = await api.post("/api/delphin/chat", {
+        message: "Give a quick sustainability tip, fact about the environment, or encouragement",
+      });
+      setSpeechText(res.data.response || "Small eco actions create big waves! 🐬");
+    } catch {
+      setSpeechText("Delphi loves clean waters! Keep making campus greener. 🌊");
+    } finally {
+      setSpeechLoading(false);
+    }
   };
 
   const toggleSound = () => {
@@ -109,14 +111,6 @@ export default function App() {
               <span>🛍️</span>
               <span>Card Shop</span>
             </NavLink>
-            <NavLink
-              to="/delphin"
-              className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-              onClick={() => playBubbleSound()}
-            >
-              <span>🐬</span>
-              <span>Delphi Messenger</span>
-            </NavLink>
           </div>
 
           {/* Windows XP System Tray */}
@@ -143,11 +137,10 @@ export default function App() {
 
       <main className="container">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home onTalkToDelphi={handleCompanionClick} />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/events" element={<Events />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/delphin" element={<Delphin />} />
         </Routes>
       </main>
 
@@ -155,19 +148,33 @@ export default function App() {
       <div className="companion-container">
         {speechOpen && (
           <div className="companion-speech">
-            <div>{companionMessages[messageIndex]}</div>
-            <div className="companion-speech-actions">
-              <Link
-                to="/delphin"
-                className="btn"
-                style={{ fontSize: "10px", padding: "2px 8px" }}
-                onClick={() => {
-                  playBubbleSound();
-                  setSpeechOpen(false);
-                }}
+            <div className="companion-speech-title">
+              <span>🐬 Delphi Assistant</span>
+              <span
+                style={{ cursor: "pointer", color: "#666", fontSize: "10px" }}
+                onClick={() => setSpeechOpen(false)}
               >
-                Chat with Delphi 🐬
-              </Link>
+                ✕
+              </span>
+            </div>
+            <div>
+              {speechLoading ? (
+                <span style={{ fontStyle: "italic", color: "#003c74" }}>
+                  Delphi is splashing water & thinking... 🫧
+                </span>
+              ) : (
+                speechText
+              )}
+            </div>
+            <div className="companion-speech-actions">
+              <button
+                className="btn btn-primary"
+                style={{ fontSize: "10px", padding: "2px 8px" }}
+                onClick={handleCompanionClick}
+                disabled={speechLoading}
+              >
+                Next Tip 🐬
+              </button>
               <button
                 className="btn"
                 style={{ fontSize: "10px", padding: "2px 8px" }}
@@ -182,7 +189,7 @@ export default function App() {
           className="companion"
           onClick={handleCompanionClick}
           aria-label="Delphi Dolphin Assistant"
-          title="Click to talk to Delphi"
+          title="Click to get an eco-tip from Delphi"
         >
           🐬
         </div>

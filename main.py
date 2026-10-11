@@ -6,11 +6,16 @@ import random
 from backend.XP import Event, Profile
 from backend.cardPacks import Shop
 
-from google import genai
-from google.genai import types
 from dotenv import load_dotenv
 import os
-from XP import Profile
+load_dotenv()
+
+try:
+    from google import genai
+    from google.genai import types
+    has_genai = True
+except ImportError:
+    has_genai = False
 
 app = FastAPI(title="HackNC-2026 API")
 
@@ -151,6 +156,8 @@ def complete_event(username: str, event_id: int):
         raise HTTPException(status_code=400, detail="Already completed")
 
     earned_xp = event.calculate_xp()
+    earned_money = event.calculate_money()
+    user_money[username] = user_money.get(username, 0.0) + earned_money
     profile.completed_events.append(event_id)
 
     total_xp = 0
@@ -159,8 +166,9 @@ def complete_event(username: str, event_id: int):
             total_xp += events_db[completed_id].calculate_xp()
 
     return {
-        "message": f"You earned {earned_xp} XP!",
+        "message": f"You earned {earned_xp} XP and ${earned_money} Money!",
         "total_xp": total_xp,
+        "money": user_money[username],
         "completed_events": profile.completed_events,
     }
 
@@ -213,18 +221,31 @@ def buy_pack(username: str, payload: CardPackRequest):
     }
 
 @app.post("/api/delphin/chat")
-def chat_delphin(payload: ChatMessage):
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+def chat_delphin(payload: ChatMessage = None):
+    if has_genai and os.getenv("GEMINI_API_KEY"):
+        try:
+            client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+            msg = payload.message if (payload and payload.message) else "Give a quick tip, fact about the environment, or encouragement"
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                config=types.GenerateContentConfig(
+                    system_instruction=f"look through {profiles_db} and generate a helpful tip, fact about the environment, or give encouragement. Keep it short under 2 sentences."
+                ),
+                contents=msg
+            )
+            if response and hasattr(response, "text") and response.text:
+                return {"response": response.text.strip()}
+        except Exception as e:
+            print("Gemini generation error:", e)
 
-
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        config=types.GenerateContentConfig(
-            system_instruction=f"look through {profiles_db} and generate a helpful tip, fact about the enviroement, or give encoruagement "
-        ),
-    )
-        
-    return {"response": random.choice(response)}
+    fallback_tips = [
+        "Small eco actions create big waves! Keep building your streak. 🌊",
+        "Turning off unused dorm electronics saves meaningful power each week! 💡",
+        "Dolphins love clean waters—thanks for helping make campus greener! 🐬",
+        "Check the events tab to complete more quests and earn XP! ⭐",
+        "Did you know? Campus composting keeps valuable organic matter out of landfills! 🌿",
+    ]
+    return {"response": random.choice(fallback_tips)}
 
 if __name__ == "__main__":
     import uvicorn

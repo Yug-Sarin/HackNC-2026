@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../api";
 import { playBubbleSound } from "../utils/soundHelper";
 
-export default function Home() {
+export default function Home({ onTalkToDelphi }) {
   const [eventCount, setEventCount] = useState(0);
   const [username, setUsername] = useState(null);
 
@@ -116,15 +116,17 @@ export default function Home() {
           <p>Collect rare marine creatures from common crabs to mythical leviathans.</p>
         </Link>
 
-        <Link
-          to="/delphin"
+        <div
           className="feature-card"
-          onClick={() => playBubbleSound()}
+          onClick={() => {
+            playBubbleSound();
+            if (onTalkToDelphi) onTalkToDelphi();
+          }}
         >
           <div className="feature-icon">🐬</div>
           <h3>Delphi Mascot</h3>
-          <p>Chat with your cheerful dolphin companion for quick tips and motivation.</p>
-        </Link>
+          <p>Click to get an instant eco-tip and motivation from Delphi.</p>
+        </div>
       </div>
 
       {/* How It Works Section */}

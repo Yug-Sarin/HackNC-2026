@@ -35,45 +35,12 @@ html, body {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-/* Windows XP "Bliss" Wallpaper Background */
+/* Windows XP Authentic Realistic "Bliss" Wallpaper */
 body {
-  background: 
-    /* Bliss Hill green gradient at the bottom */
-    linear-gradient(180deg, 
-      transparent 0%, 
-      transparent 55%, 
-      rgba(76, 175, 40, 0.7) 62%, 
-      #4cae28 72%, 
-      #388e22 88%, 
-      #256214 100%
-    ),
-    /* Bliss Sky blue gradient */
-    linear-gradient(180deg, 
-      #1f7be0 0%, 
-      #3e94ec 25%, 
-      #6db2f7 50%, 
-      #a1cefb 75%, 
-      #cbe5fe 90%
-    );
-  background-attachment: fixed;
+  background: #2565c8 url("/bliss.jpg") no-repeat center bottom fixed;
   background-size: cover;
   overflow-x: hidden;
   position: relative;
-}
-
-/* Bliss rolling hill curved backdrop */
-body::after {
-  content: "";
-  position: fixed;
-  bottom: 0;
-  left: -10%;
-  right: -10%;
-  height: 280px;
-  background: radial-gradient(ellipse 90% 100% at 50% 100%, #48a623 0%, #3a8a1c 60%, #2a6913 100%);
-  border-top: 2px solid #6ed13f;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.85;
 }
 
 /* ==========================================================================
@@ -962,20 +929,32 @@ input:focus, textarea:focus, select:focus {
 .companion-speech {
   background: #ffffdc;
   border: 1px solid #000000;
-  border-radius: 3px;
-  padding: 10px 12px;
-  max-width: 250px;
+  border-radius: 4px;
+  padding: 10px 14px;
+  max-width: 290px;
   font-size: 11px;
   color: #000000;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
   position: relative;
+  line-height: 1.45;
+}
+
+.companion-speech-title {
+  font-weight: bold;
+  color: #003c74;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed #d1c877;
+  padding-bottom: 4px;
 }
 
 .companion-speech::after {
   content: "";
   position: absolute;
   bottom: -8px;
-  right: 20px;
+  right: 22px;
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
@@ -985,7 +964,8 @@ input:focus, textarea:focus, select:focus {
 
 .companion-speech-actions {
   display: flex;
-  gap: 4px;
+  justify-content: flex-end;
+  gap: 5px;
   margin-top: 8px;
 }
 
