@@ -1,16 +1,32 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 
-const cardEmojis = {
-  🐟: { rarity: "common", color: "#86efac" },
-  🐠: { rarity: "common", color: "#86efac" },
-  🦑: { rarity: "uncommon", color: "#5ac8fa" },
-  🦈: { rarity: "rare", color: "#f59e0b" },
-  🐙: { rarity: "rare", color: "#f59e0b" },
-  🦐: { rarity: "common", color: "#86efac" },
-  🦞: { rarity: "uncommon", color: "#5ac8fa" },
-  🐚: { rarity: "uncommon", color: "#5ac8fa" },
-  👑: { rarity: "legendary", color: "#ff3b30" },
+const cardRarities = {
+  "🐟": "common",
+  "🐠": "common",
+  "🦑": "uncommon",
+  "🦈": "rare",
+  "🐙": "rare",
+  "🦐": "common",
+  "🦞": "uncommon",
+  "🐚": "uncommon",
+  "👑": "legendary",
+};
+
+const getRarityColor = (card) => {
+  const rarity = cardRarities[card] || "unknown";
+  const colors = {
+    common: "#86efac",
+    uncommon: "#5ac8fa",
+    rare: "#f59e0b",
+    legendary: "#ff3b30",
+    unknown: "#888",
+  };
+  return colors[rarity];
+};
+
+const getRarityLabel = (card) => {
+  return cardRarities[card] || "unknown";
 };
 
 export default function Profile() {
@@ -124,15 +140,12 @@ export default function Profile() {
               <p className="empty">No cards yet. Visit the shop to buy packs.</p>
             ) : (
               <div className="cards-grid">
-                {cards.map((card, idx) => {
-                  const cardInfo = cardEmojis[card] || { rarity: "unknown", color: "#888" };
-                  return (
-                    <div key={idx} className="card-display" style={{ borderColor: cardInfo.color }}>
-                      <div className="card-emoji">{card}</div>
-                      <div className="card-rarity">{cardInfo.rarity}</div>
-                    </div>
-                  );
-                })}
+                {cards.map((card, idx) => (
+                  <div key={idx} className="card-display" style={{ borderColor: getRarityColor(card) }}>
+                    <div className="card-emoji">{card}</div>
+                    <div className="card-rarity">{getRarityLabel(card)}</div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
