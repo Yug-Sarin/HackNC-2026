@@ -19,6 +19,7 @@ class Event:
         self.event_id = event_id
 
     def description(self):
+        
         """Give a description of the event"""
         return (f"Event name: {self.name}\n"
                 f"Event duration: {self.duration}\n"
