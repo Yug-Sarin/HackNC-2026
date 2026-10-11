@@ -67,7 +67,6 @@ export default function Profile() {
 
   const levelInfo = calculateLevel(profile?.xp || 0);
 
-  // Filter cards if rarity is selected
   const parsedCards = cards.map((c) => parseCard(c));
   const filteredCards =
     selectedRarity === "all"
@@ -78,26 +77,27 @@ export default function Profile() {
 
   return (
     <div>
-      {/* Profile Account Window */}
+      {/* Profile Dialog Window */}
       <div className="card">
         <div className="window-header">
-          <div className="window-dots">
-            <span className="window-dot dot-red" />
-            <span className="window-dot dot-yellow" />
-            <span className="window-dot dot-green" />
-          </div>
-          <span className="window-title">👤 User Identity • Profile Manager</span>
-          <span style={{ fontSize: "0.8rem", color: "#0284c7", fontWeight: 700 }}>
-            {profile ? "Signed In" : "Guest Mode"}
+          <span className="window-title">
+            <span>👤</span>
+            <span>User Accounts - Profile Properties</span>
           </span>
+          <div className="window-dots">
+            <span className="xp-btn-ctrl xp-btn-min">_</span>
+            <span className="xp-btn-ctrl xp-btn-max">□</span>
+            <span className="xp-btn-ctrl xp-btn-close">✕</span>
+          </div>
         </div>
 
         {message && <div className="message">{message}</div>}
 
         {!profile ? (
-          <div>
-            <p style={{ marginBottom: "1rem", color: "#0f4c6e", fontWeight: 600 }}>
-              Enter your student handle to create a new profile or sync your existing campus account.
+          <fieldset className="xp-groupbox">
+            <legend className="xp-legend">Log On / Create Account</legend>
+            <p style={{ marginBottom: "8px", color: "#333" }}>
+              Type your student handle below to access your campus sustainability account.
             </p>
             <div className="form-row">
               <input
@@ -106,25 +106,30 @@ export default function Profile() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") createProfile();
                 }}
-                placeholder="Enter your username (e.g. EcoHero)"
+                placeholder="User name (e.g. EcoExplorer)"
               />
-              <button onClick={createProfile} disabled={loading} style={{ width: "auto" }}>
-                {loading ? "Creating..." : "✨ Create / Sign In"}
+              <button
+                onClick={createProfile}
+                disabled={loading}
+                className="btn btn-primary"
+                style={{ width: "auto" }}
+              >
+                {loading ? "Logging in..." : "OK / Create"}
               </button>
             </div>
-          </div>
+          </fieldset>
         ) : (
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
             <div>
-              <h2 style={{ color: "#034f84", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                Welcome back, {profile.username}! 🌟
+              <h2 style={{ color: "#003c74", fontSize: "14px", fontWeight: "bold" }}>
+                Welcome back, {profile.username}!
               </h2>
-              <p style={{ color: "#0284c7", fontWeight: 700 }}>
-                Rank: {levelInfo.title} • Level {levelInfo.level}
+              <p style={{ color: "#444", fontSize: "11px", marginTop: "2px" }}>
+                Rank: <strong>{levelInfo.title}</strong> • Level {levelInfo.level}
               </p>
             </div>
-            <button onClick={logout} className="btn-danger">
-              🚪 Logout
+            <button onClick={logout} className="btn btn-danger">
+              Log Off
             </button>
           </div>
         )}
@@ -135,90 +140,94 @@ export default function Profile() {
           {/* XP Progress & Level Meter Window */}
           <div className="card">
             <div className="window-header">
-              <div className="window-dots">
-                <span className="window-dot dot-red" />
-                <span className="window-dot dot-yellow" />
-                <span className="window-dot dot-green" />
-              </div>
-              <span className="window-title">⭐ Sustainability XP & Rank Meter</span>
-              <span style={{ fontSize: "0.8rem", color: "#10b981", fontWeight: 700 }}>
-                Level {levelInfo.level}
+              <span className="window-title">
+                <span>⭐</span>
+                <span>Performance - Sustainability XP Monitor</span>
               </span>
-            </div>
-
-            <div className="xp-meter-container">
-              <div className="xp-meter-header">
-                <span>{levelInfo.title}</span>
-                <span>
-                  {profile.xp} XP / {levelInfo.nextLevelXp} XP to next milestone
-                </span>
-              </div>
-              <div className="xp-bar-track">
-                <div
-                  className="xp-bar-fill"
-                  style={{ width: `${Math.min(100, Math.max(5, levelInfo.progressPercent))}%` }}
-                />
+              <div className="window-dots">
+                <span className="xp-btn-ctrl xp-btn-min">_</span>
+                <span className="xp-btn-ctrl xp-btn-max">□</span>
+                <span className="xp-btn-ctrl xp-btn-close">✕</span>
               </div>
             </div>
 
-            <div className="stats-grid">
-              <div className="stat-card">
-                <div className="stat-label">Total XP</div>
-                <div className="stat-value">{profile.xp}</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-label">📅 RSVP'd Events</div>
-                <div className="stat-value">{profile.rsvped_events.length}</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-label">🏆 Completed</div>
-                <div className="stat-value">{profile.completed_events.length}</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-label">💰 Eco-Funds</div>
-                <div className="stat-value" style={{ color: "#0284c7" }}>
-                  ${money.toFixed(2)}
+            <fieldset className="xp-groupbox">
+              <legend className="xp-legend">XP Milestone Status</legend>
+              <div className="xp-meter-container">
+                <div className="xp-meter-header">
+                  <span>{levelInfo.title} (Level {levelInfo.level})</span>
+                  <span>
+                    {profile.xp} / {levelInfo.nextLevelXp} XP to next level
+                  </span>
+                </div>
+                <div className="xp-bar-track">
+                  <div
+                    className="xp-bar-fill"
+                    style={{ width: `${Math.min(100, Math.max(5, levelInfo.progressPercent))}%` }}
+                  />
                 </div>
               </div>
-            </div>
+
+              <div className="stats-grid">
+                <div className="stat-card">
+                  <div className="stat-label">Total XP</div>
+                  <div className="stat-value">{profile.xp}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">RSVP'd Events</div>
+                  <div className="stat-value">{profile.rsvped_events.length}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">Completed</div>
+                  <div className="stat-value">{profile.completed_events.length}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">Eco-Funds</div>
+                  <div className="stat-value" style={{ color: "#0055ea" }}>
+                    ${money.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+            </fieldset>
           </div>
 
-          {/* Aquatic Card Collection Window */}
+          {/* Creature Card Collection Window */}
           <div className="card">
             <div className="window-header">
+              <span className="window-title">
+                <span>🎴</span>
+                <span>My Collection - Marine Creatures ({cards.length})</span>
+              </span>
               <div className="window-dots">
-                <span className="window-dot dot-red" />
-                <span className="window-dot dot-yellow" />
-                <span className="window-dot dot-green" />
+                <span className="xp-btn-ctrl xp-btn-min">_</span>
+                <span className="xp-btn-ctrl xp-btn-max">□</span>
+                <span className="xp-btn-ctrl xp-btn-close">✕</span>
               </div>
-              <span className="window-title">🎴 Holographic Aquatic Collection ({cards.length})</span>
-              <Link
-                to="/shop"
-                style={{ fontSize: "0.85rem", color: "#0284c7", fontWeight: 700, textDecoration: "none" }}
-                onClick={() => playBubbleSound()}
-              >
-                + Buy Packs in Shop →
-              </Link>
             </div>
 
-            {/* Rarity filter pills */}
-            <div className="template-pills">
-              {["all", "common", "rare", "epic", "legendary", "mythic"].map((rarity) => (
-                <button
-                  key={rarity}
-                  className={`template-pill ${selectedRarity === rarity ? "active" : ""}`}
-                  style={{
-                    background: selectedRarity === rarity ? "linear-gradient(180deg, #38bdf8 0%, #0284c7 100%)" : "",
-                    color: selectedRarity === rarity ? "#fff" : "",
-                  }}
-                  onClick={() => {
-                    playBubbleSound();
-                    setSelectedRarity(rarity);
-                  }}
-                >
-                  {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
-                </button>
-              ))}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px", flexWrap: "wrap", gap: "6px" }}>
+              <div className="template-pills">
+                {["all", "common", "rare", "epic", "legendary", "mythic"].map((rarity) => (
+                  <button
+                    key={rarity}
+                    className={`template-pill ${selectedRarity === rarity ? "btn-primary" : ""}`}
+                    onClick={() => {
+                      playBubbleSound();
+                      setSelectedRarity(rarity);
+                    }}
+                  >
+                    {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
+                  </button>
+                ))}
+              </div>
+
+              <Link
+                to="/shop"
+                className="btn"
+                onClick={() => playBubbleSound()}
+              >
+                + Open Packs in Shop →
+              </Link>
             </div>
 
             {filteredCards.length === 0 ? (
@@ -228,11 +237,11 @@ export default function Profile() {
                     <p>No cards in your collection yet.</p>
                     <Link
                       to="/shop"
-                      className="btn"
-                      style={{ marginTop: "1rem" }}
+                      className="btn btn-primary"
+                      style={{ marginTop: "8px" }}
                       onClick={() => playBubbleSound()}
                     >
-                      🛍️ Visit Shop to Open Packs
+                      Open Creature Packs
                     </Link>
                   </div>
                 ) : (
@@ -245,10 +254,7 @@ export default function Profile() {
                   <div
                     key={idx}
                     className="card-display"
-                    style={{
-                      borderColor: card.config.border,
-                      boxShadow: `0 8px 20px ${card.config.glow}, inset 0 1px 1px rgba(255, 255, 255, 0.85)`,
-                    }}
+                    style={{ borderColor: card.config.border }}
                     onClick={() => playBubbleSound()}
                     title={`${card.name} (${card.rarity})`}
                   >
@@ -256,11 +262,7 @@ export default function Profile() {
                     <div className="card-emoji">{card.emoji}</div>
                     <div
                       className="card-rarity"
-                      style={{
-                        background: card.config.gradient,
-                        color: "#fff",
-                        textShadow: "0 1px 2px rgba(0,0,0,0.4)",
-                      }}
+                      style={{ background: card.config.gradient }}
                     >
                       {card.rarity}
                     </div>

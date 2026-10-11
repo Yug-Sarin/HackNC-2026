@@ -1,23 +1,22 @@
 /* ==========================================================================
-   FRUTIGER AERO DESIGN SYSTEM - HackNC 2026
-   Vibrant skeuomorphism, Aqua glass, tropical ocean tones, & optimism
+   WINDOWS XP (LUNA BLUE) THEME - HackNC 2026
+   Authentic Luna taskbar, Bliss background, Tahoma typography,
+   classic 3D window frames, segmented green candy progress bars, and buttons.
    ========================================================================== */
 
 :root {
-  --font-family: "Segoe UI", "Frutiger", "Frutiger Linotype", "Nunito", -apple-system, BlinkMacSystemFont, "Trebuchet MS", sans-serif;
-  
-  /* Frutiger Aero signature palette */
-  --aero-sky: #38bdf8;
-  --aero-cyan: #06b6d4;
-  --aero-deep-blue: #0284c7;
-  --aero-navy: #034f84;
-  --aero-emerald: #10b981;
-  --aero-lime: #4ade80;
-  --aero-solar: #f59e0b;
-  --aero-glass-bg: rgba(255, 255, 255, 0.55);
-  --aero-glass-border: rgba(255, 255, 255, 0.75);
-  --aero-glass-shadow: 0 12px 32px 0 rgba(2, 132, 199, 0.22), 0 2px 6px rgba(0, 0, 0, 0.05);
-  --aero-inner-glow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.06);
+  --xp-font: Tahoma, "Segoe UI", Arial, "MS Sans Serif", sans-serif;
+  --xp-blue: #0055ea;
+  --xp-blue-dark: #003c74;
+  --xp-window-bg: #ece9d8;
+  --xp-content-bg: #ffffff;
+  --xp-border-input: #7f9db9;
+  --xp-taskbar-blue: #245edb;
+  --xp-green-start: #388e3c;
+  --xp-red-close: #cc2b1e;
+  --xp-text: #000000;
+  --xp-highlight: #316ac5;
+  --xp-group-border: #d0ccbf;
 }
 
 /* Base reset & typography */
@@ -29,1242 +28,996 @@
 
 html, body {
   min-height: 100vh;
-  font-family: var(--font-family);
-  color: #0f2c42;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--xp-font);
+  font-size: 12px;
+  color: var(--xp-text);
+  line-height: 1.4;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
+/* Windows XP "Bliss" Wallpaper Background */
 body {
-  /* Rich Frutiger Aero tropical sky & deep sea wallpaper */
   background: 
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(224, 247, 250, 0.9) 0%, rgba(56, 189, 248, 0.45) 45%, transparent 80%),
-    radial-gradient(circle at 15% 25%, rgba(134, 239, 172, 0.35) 0%, transparent 40%),
-    radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.3) 0%, transparent 45%),
-    linear-gradient(180deg, #67e8f9 0%, #38bdf8 25%, #0284c7 60%, #034f84 100%);
+    /* Bliss Hill green gradient at the bottom */
+    linear-gradient(180deg, 
+      transparent 0%, 
+      transparent 55%, 
+      rgba(76, 175, 40, 0.7) 62%, 
+      #4cae28 72%, 
+      #388e22 88%, 
+      #256214 100%
+    ),
+    /* Bliss Sky blue gradient */
+    linear-gradient(180deg, 
+      #1f7be0 0%, 
+      #3e94ec 25%, 
+      #6db2f7 50%, 
+      #a1cefb 75%, 
+      #cbe5fe 90%
+    );
   background-attachment: fixed;
+  background-size: cover;
   overflow-x: hidden;
   position: relative;
 }
 
-/* Subtle caustics / water grid overlay */
-body::before {
+/* Bliss rolling hill curved backdrop */
+body::after {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
-  background-image: 
-    radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
-    radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-  background-size: 40px 40px, 80px 80px;
-  background-position: 0 0, 20px 20px;
+  left: -10%;
+  right: -10%;
+  height: 280px;
+  background: radial-gradient(ellipse 90% 100% at 50% 100%, #48a623 0%, #3a8a1c 60%, #2a6913 100%);
+  border-top: 2px solid #6ed13f;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.6;
+  opacity: 0.85;
 }
 
 /* ==========================================================================
-   ANIMATED AERO BUBBLES
-   ========================================================================== */
-.aero-bubbles-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.aero-bubble {
-  position: absolute;
-  bottom: -60px;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(186, 230, 253, 0.4) 100%);
-  border-radius: 50%;
-  box-shadow: 
-    inset 0 2px 4px rgba(255, 255, 255, 0.9),
-    inset 0 -2px 4px rgba(2, 132, 199, 0.3),
-    0 4px 12px rgba(2, 132, 199, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  animation: floatBubble 14s infinite ease-in;
-}
-
-/* Bubble specular highlight */
-.aero-bubble::after {
-  content: "";
-  position: absolute;
-  top: 15%;
-  left: 20%;
-  width: 25%;
-  height: 25%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
-  filter: blur(0.5px);
-}
-
-@keyframes floatBubble {
-  0% {
-    transform: translateY(0) translateX(0) scale(0.8);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.75;
-  }
-  50% {
-    transform: translateY(-50vh) translateX(25px) scale(1);
-    opacity: 0.85;
-  }
-  85% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(-110vh) translateX(-20px) scale(1.1);
-    opacity: 0;
-  }
-}
-
-/* Stagger bubble positions & sizes */
-.aero-bubble:nth-child(1) { left: 8%; width: 28px; height: 28px; animation-duration: 16s; animation-delay: 0s; }
-.aero-bubble:nth-child(2) { left: 22%; width: 18px; height: 18px; animation-duration: 12s; animation-delay: 2s; }
-.aero-bubble:nth-child(3) { left: 38%; width: 34px; height: 34px; animation-duration: 19s; animation-delay: 4s; }
-.aero-bubble:nth-child(4) { left: 55%; width: 22px; height: 22px; animation-duration: 14s; animation-delay: 1s; }
-.aero-bubble:nth-child(5) { left: 72%; width: 38px; height: 38px; animation-duration: 21s; animation-delay: 5s; }
-.aero-bubble:nth-child(6) { left: 88%; width: 20px; height: 20px; animation-duration: 13s; animation-delay: 3s; }
-.aero-bubble:nth-child(7) { left: 45%; width: 14px; height: 14px; animation-duration: 17s; animation-delay: 7s; }
-.aero-bubble:nth-child(8) { left: 92%; width: 30px; height: 30px; animation-duration: 18s; animation-delay: 6s; }
-
-/* ==========================================================================
-   NAVIGATION BAR (Aero Ribbon Taskbar)
+   WINDOWS XP LUNA TASKBAR (Top Navigation)
    ========================================================================== */
 .nav {
   position: sticky;
   top: 0;
-  z-index: 100;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  z-index: 200;
+  height: 38px;
   background: linear-gradient(180deg, 
-    rgba(255, 255, 255, 0.85) 0%, 
-    rgba(240, 249, 255, 0.72) 48%, 
-    rgba(219, 234, 254, 0.65) 52%, 
-    rgba(240, 249, 255, 0.8) 100%
+    #3168d5 0%, 
+    #255cd5 8%, 
+    #1d4bd1 45%, 
+    #1941a5 85%, 
+    #14358a 100%
   );
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 20px rgba(2, 132, 199, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  padding: 0.6rem 1.5rem;
-  transition: all 0.3s ease;
+  border-bottom: 2px solid #0e2968;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 .nav-inner {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  height: 100%;
+  padding: 0;
 }
 
+/* Windows XP "start" Button */
 .logo {
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #034f84;
+  gap: 6px;
+  padding: 0 16px 0 10px;
   text-decoration: none;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9), 0 2px 8px rgba(56, 189, 248, 0.4);
-  letter-spacing: -0.02em;
+  font-family: var(--xp-font);
+  font-size: 14px;
+  font-style: italic;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 1px 1px 1px #114207;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border: 1px solid #1c5211;
+  border-left: none;
+  background: linear-gradient(180deg, 
+    #5ba74d 0%, 
+    #429b33 12%, 
+    #3c8d2f 50%, 
+    #317b25 85%, 
+    #25621c 100%
+  );
+  box-shadow: 
+    inset 1px 1px 0 rgba(255, 255, 255, 0.7),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.3),
+    2px 0 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  user-select: none;
+  transition: filter 0.15s ease;
+}
+
+.logo:hover {
+  filter: brightness(1.1);
+}
+
+.logo:active {
+  background: linear-gradient(180deg, #25621c 0%, #3c8d2f 100%);
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.5);
 }
 
 .logo-dolphin-icon {
-  font-size: 1.7rem;
-  display: inline-block;
-  animation: gentleBob 3s infinite ease-in-out;
-  filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.4));
+  font-size: 16px;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
-@keyframes gentleBob {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-4px) rotate(4deg); }
-}
-
+/* Windows XP Program Taskbar Buttons */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  background: rgba(255, 255, 255, 0.45);
-  padding: 0.25rem 0.35rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  gap: 4px;
+  padding-left: 8px;
+  flex: 1;
+  overflow-x: auto;
 }
 
 .nav-link {
-  text-decoration: none;
-  color: #034f84;
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.45rem 1rem;
-  border-radius: 9999px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
+  height: 28px;
+  padding: 0 12px;
+  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  position: relative;
+  gap: 5px;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: normal;
+  color: #ffffff;
+  text-shadow: 1px 1px 1px #0e2b6a;
+  border-radius: 3px;
+  border: 1px solid #133982;
+  background: linear-gradient(180deg, 
+    #3a7ef0 0%, 
+    #2a69dc 15%, 
+    #1d4ebd 50%, 
+    #163da8 85%, 
+    #12328d 100%
+  );
+  box-shadow: 
+    inset 1px 1px 0 rgba(255, 255, 255, 0.5),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.1s ease;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
-  color: #0284c7;
-  background: rgba(255, 255, 255, 0.65);
-  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.25);
-  transform: translateY(-1px);
+  background: linear-gradient(180deg, #4f8ff7 0%, #2c6fde 100%);
+  filter: brightness(1.08);
 }
 
+/* Active / Sunken Taskbar Button */
 .nav-link.active {
-  color: #ffffff;
-  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: linear-gradient(180deg, 
+    #133177 0%, 
+    #194098 25%, 
+    #1f4cb0 60%, 
+    #2253be 100%
+  );
+  border-color: #0b2156;
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 3px 10px rgba(2, 132, 199, 0.45);
-  text-shadow: 0 -1px 1px rgba(3, 79, 132, 0.6);
+    inset 1px 1px 3px rgba(0, 0, 0, 0.6),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: bold;
 }
 
-/* User status badge in navigation */
+/* Windows XP Notification Area (System Tray) */
 .nav-status-pill {
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 253, 250, 0.75) 100%);
-  padding: 0.3rem 0.8rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15), inset 0 1px 0 #fff;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #034f84;
+  gap: 10px;
+  padding: 0 14px;
+  background: linear-gradient(180deg, #0f3987 0%, #0d2f70 50%, #092357 100%);
+  border-left: 1px solid #09255a;
+  box-shadow: inset 1px 0 1px rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 11px;
 }
 
 .nav-status-item {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .sound-toggle-btn {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  background: transparent;
+  border: none;
   cursor: pointer;
+  color: #fff;
+  font-size: 13px;
+  padding: 2px 4px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2), inset 0 1px 0 #fff;
-  transition: all 0.2s ease;
 }
 
 .sound-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.95);
-  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* ==========================================================================
-   MAIN LAYOUT & AERO CONTAINER
+   MAIN CONTAINER
    ========================================================================== */
 .container {
   position: relative;
   z-index: 2;
-  max-width: 1100px;
-  margin: 2rem auto 6rem;
-  padding: 0 1.5rem;
+  max-width: 960px;
+  margin: 1.5rem auto 4rem;
+  padding: 0 1rem;
 }
 
 /* ==========================================================================
-   AERO GLASS CARDS & WINDOWS
+   AUTHENTIC WINDOWS XP LUNA WINDOWS (.card)
    ========================================================================== */
 .card {
   position: relative;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.78) 0%, 
-    rgba(240, 249, 255, 0.65) 45%, 
-    rgba(224, 242, 254, 0.5) 100%
-  );
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-  border-top: 2px solid rgba(255, 255, 255, 0.98);
-  border-radius: 20px;
+  background: var(--xp-window-bg);
+  border: 3px solid #0055ea;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   box-shadow: 
-    0 16px 40px rgba(2, 132, 199, 0.22),
-    0 2px 6px rgba(0, 0, 0, 0.04),
-    var(--aero-inner-glow);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.6);
+  padding: 1.4rem;
+  margin-bottom: 1.8rem;
 }
 
-.card:hover {
-  box-shadow: 
-    0 22px 50px rgba(2, 132, 199, 0.28),
-    0 4px 10px rgba(0, 0, 0, 0.05),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 1);
-}
-
-/* Glass window titlebar header (Aqua / Vista classic) */
+/* Classic Luna Blue Window Titlebar */
 .window-header {
+  height: 30px;
+  margin: -1.4rem -1.4rem 1.2rem -1.4rem;
+  padding: 0 6px 0 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: -2rem -2rem 1.5rem -2rem;
-  padding: 0.85rem 1.5rem;
   background: linear-gradient(180deg, 
-    rgba(255, 255, 255, 0.95) 0%, 
-    rgba(240, 249, 255, 0.82) 48%, 
-    rgba(219, 234, 254, 0.7) 52%, 
-    rgba(240, 249, 255, 0.85) 100%
+    #0058ee 0%, 
+    #3593ff 4%, 
+    #288eff 18%, 
+    #1268ee 35%, 
+    #0055ea 70%, 
+    #0046d5 100%
   );
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
-}
-
-.window-dots {
-  display: flex;
-  gap: 0.45rem;
-}
-
-.window-dot {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 1px 3px rgba(0, 0, 0, 0.15);
-  border: 0.5px solid rgba(0, 0, 0, 0.15);
-}
-
-.dot-red {
-  background: radial-gradient(circle at 35% 35%, #ff857a 0%, #ff4b4b 55%, #d91b1b 100%);
-}
-.dot-yellow {
-  background: radial-gradient(circle at 35% 35%, #ffeb85 0%, #ffb81c 55%, #d99100 100%);
-}
-.dot-green {
-  background: radial-gradient(circle at 35% 35%, #8ae89e 0%, #2bd957 55%, #18a83c 100%);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: 1px solid #0038a8;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  user-select: none;
 }
 
 .window-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #034f84;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 1px 1px 1px #0e2a6b;
+  letter-spacing: 0.01em;
 }
 
-/* Hero card styling */
-.hero-card {
-  text-align: center;
-  padding: 3rem 2rem;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.88) 0%, 
-    rgba(224, 247, 250, 0.75) 40%, 
-    rgba(186, 230, 253, 0.6) 100%
-  );
+/* Windows XP Minimize / Maximize / Close Buttons */
+.window-dots {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.xp-btn-ctrl {
+  width: 21px;
+  height: 21px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.xp-btn-min, .xp-btn-max {
+  background: linear-gradient(180deg, #428eff 0%, #1765e8 50%, #0d4ed1 100%);
+  color: #ffffff;
+}
+
+.xp-btn-close {
+  background: linear-gradient(180deg, #e25749 0%, #cc2b1e 50%, #9e1208 100%);
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.xp-btn-ctrl:hover {
+  filter: brightness(1.15);
+}
+
+.xp-btn-ctrl:active {
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Inset Content Box (White interior with XP border) */
+.xp-inset-panel {
+  background: var(--xp-content-bg);
+  border: 1px solid var(--xp-border-input);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  border-radius: 2px;
+}
+
+/* Classic XP Fieldset Group Box */
+.xp-groupbox {
+  border: 1px solid var(--xp-group-border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin-top: 10px;
   position: relative;
-  overflow: hidden;
+  background: transparent;
 }
 
-/* Light sheen burst on hero card */
-.hero-card::before {
-  content: "";
-  position: absolute;
-  top: -40%;
-  left: 20%;
-  width: 60%;
-  height: 80%;
-  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.7) 0%, transparent 70%);
-  pointer-events: none;
+.xp-legend {
+  font-weight: bold;
+  color: var(--xp-blue-dark);
+  padding: 0 6px;
+  font-size: 11px;
+}
+
+/* Hero Section */
+.hero-card {
+  text-align: left;
+}
+
+.hero-layout {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hero-banner-icon {
+  font-size: 4rem;
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(180deg, #eaf2ff 0%, #c8ddfd 100%);
+  border: 1px solid #7f9db9;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 1px 1px 0 #fff;
+  flex-shrink: 0;
 }
 
 .hero-card h1 {
-  font-size: 2.75rem;
-  font-weight: 800;
-  color: #034f84;
-  margin-bottom: 0.85rem;
-  letter-spacing: -0.03em;
-  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9), 0 3px 12px rgba(56, 189, 248, 0.35);
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #003c74;
+  margin-bottom: 0.4rem;
 }
 
 .hero-card .subtitle {
-  font-size: 1.2rem;
-  color: #0f4c6e;
-  max-width: 720px;
-  margin: 0 auto 1.75rem;
-  line-height: 1.6;
-  font-weight: 500;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  color: #333333;
+  line-height: 1.5;
+  margin-bottom: 1rem;
 }
 
 .hero-actions {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
+  gap: 8px;
   flex-wrap: wrap;
+  margin-top: 0.6rem;
 }
 
 /* ==========================================================================
-   SKEUOMORPHIC AERO BUTTONS
+   CLASSIC WINDOWS XP LUNA BUTTONS
    ========================================================================== */
 button, .btn {
-  font-family: var(--font-family);
+  font-family: var(--xp-font);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 0.7rem 1.6rem;
-  border-radius: 9999px;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: normal;
+  padding: 4px 14px;
+  min-height: 24px;
+  border-radius: 3px;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
-  position: relative;
-  overflow: hidden;
   text-decoration: none;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
-  
-  /* Primary Cyan / Sky Blue Jelly Aero Button */
+  white-space: nowrap;
+
+  /* Classic Windows XP Luna Button */
+  color: #000000;
+  border: 1px solid #003c74;
   background: linear-gradient(180deg, 
-    #7dd3fc 0%, 
-    #38bdf8 45%, 
-    #0284c7 49%, 
-    #0369a1 100%
+    #ffffff 0%, 
+    #f2f1eb 50%, 
+    #ebe6df 51%, 
+    #d8d0c5 100%
   );
-  color: #ffffff;
-  text-shadow: 0 -1px 1px rgba(3, 79, 132, 0.7);
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.2),
-    0 4px 12px rgba(2, 132, 199, 0.38);
+    inset 1px 1px 0 rgba(255, 255, 255, 0.9),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: none;
 }
 
-/* Glossy highlight layer on top half */
-button::before, .btn::before {
-  content: "";
-  position: absolute;
-  top: 1px;
-  left: 5%;
-  right: 5%;
-  height: 48%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 100%);
-  border-radius: 9999px 9999px 40px 40px;
-  pointer-events: none;
-}
-
+/* Windows XP Golden Button Hover Glow */
 button:hover, .btn:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.08);
+  border-color: #f7a834;
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 8px 20px rgba(2, 132, 199, 0.48);
+    inset 0 0 0 1px #ffe7a2,
+    inset 1px 1px 0 #ffffff;
+  color: #000000;
 }
 
+/* Windows XP Pressed Down State */
 button:active, .btn:active {
-  transform: translateY(1px);
-  filter: brightness(0.96);
-  box-shadow: 
-    inset 0 2px 4px rgba(0, 0, 0, 0.3),
-    0 2px 6px rgba(2, 132, 199, 0.25);
-}
-
-/* Secondary Button (Frosted Aero Glass) */
-.btn-secondary {
   background: linear-gradient(180deg, 
-    rgba(255, 255, 255, 0.95) 0%, 
-    rgba(240, 249, 255, 0.85) 48%, 
-    rgba(219, 234, 254, 0.75) 52%, 
-    rgba(240, 249, 255, 0.9) 100%
+    #cfc7bd 0%, 
+    #e8e6e0 50%, 
+    #efeee9 100%
   );
-  color: #034f84;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 1),
-    0 4px 12px rgba(2, 132, 199, 0.16);
+  box-shadow: inset 1px 1px 2px #707070;
+  border-color: #003c74;
 }
 
-.btn-secondary:hover {
-  background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%);
-  color: #0284c7;
-  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.22);
+/* Primary Action Button (Default XP button with pulsing blue frame) */
+.btn-primary {
+  border: 2px solid #2b72c4;
+  font-weight: bold;
 }
 
-/* Success / Complete Button (Vivid Eco Lime Jelly) */
+/* Success / Complete XP Button (Green) */
 .btn-success {
-  background: linear-gradient(180deg, 
-    #86efac 0%, 
-    #4ade80 45%, 
-    #22c55e 49%, 
-    #15803d 100%
-  );
+  background: linear-gradient(180deg, #62ba53 0%, #3e8d2f 50%, #29681e 100%);
   color: #ffffff;
-  text-shadow: 0 -1px 1px rgba(21, 128, 61, 0.8);
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    0 4px 12px rgba(34, 197, 94, 0.38);
+  border-color: #1a5113;
+  text-shadow: 1px 1px 1px #0e3509;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .btn-success:hover {
-  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.48);
+  border-color: #f7a834;
+  color: #ffffff;
 }
 
-/* Danger / Logout Button (Coral Ruby Jelly) */
+.btn-success:active {
+  background: linear-gradient(180deg, #29681e 0%, #3e8d2f 100%);
+  box-shadow: inset 1px 1px 2px #0a2406;
+}
+
+/* Danger / Logout XP Button (Red) */
 .btn-danger {
-  background: linear-gradient(180deg, 
-    #fca5a5 0%, 
-    #f87171 45%, 
-    #ef4444 49%, 
-    #b91c1c 100%
-  );
+  background: linear-gradient(180deg, #ea6354 0%, #cc2b1e 50%, #991309 100%);
   color: #ffffff;
-  text-shadow: 0 -1px 1px rgba(185, 28, 28, 0.8);
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    0 4px 12px rgba(239, 68, 68, 0.38);
+  border-color: #700c05;
+  text-shadow: 1px 1px 1px #450401;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.btn-danger:hover {
+  border-color: #f7a834;
+  color: #ffffff;
+}
+
+.btn-secondary {
+  /* Default XP button appearance */
 }
 
 /* Disabled button */
 button:disabled, .btn:disabled, .btn-disabled {
-  opacity: 0.55;
+  color: #888888;
+  border-color: #aca899;
+  background: #ece9d8;
+  box-shadow: none;
   cursor: not-allowed;
-  filter: grayscale(0.5);
-  transform: none !important;
-  box-shadow: none !important;
+  filter: none;
 }
 
 /* ==========================================================================
-   INPUTS & FORM CONTROLS
+   CLASSIC WINDOWS XP INPUTS & FORM CONTROLS
    ========================================================================== */
 input, textarea, select {
-  font-family: var(--font-family);
-  font-size: 1rem;
+  font-family: var(--xp-font);
+  font-size: 11px;
   width: 100%;
-  padding: 0.8rem 1.2rem;
-  border-radius: 12px;
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  color: #0f2c42;
-  box-shadow: 
-    inset 0 2px 4px rgba(2, 132, 199, 0.12),
-    0 1px 2px rgba(255, 255, 255, 0.8);
+  padding: 4px 6px;
+  border: 1px solid var(--xp-border-input);
+  background: #ffffff;
+  color: #000000;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 0;
   outline: none;
-  transition: all 0.2s ease;
 }
 
 input:focus, textarea:focus, select:focus {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: #38bdf8;
-  box-shadow: 
-    0 0 0 3px rgba(56, 189, 248, 0.35),
-    inset 0 1px 2px rgba(2, 132, 199, 0.1);
-}
-
-input::placeholder, textarea::placeholder {
-  color: #64748b;
+  border-color: #0055ea;
+  box-shadow: 0 0 3px rgba(0, 85, 234, 0.5);
 }
 
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 10px;
 }
 
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
 }
 
 /* ==========================================================================
-   GRID & FEATURE CARDS (Home Page)
+   FEATURE CARDS & GRIDS (Windows XP Style)
    ========================================================================== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .feature-card {
-  backdrop-filter: blur(16px);
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.75) 0%, 
-    rgba(240, 249, 255, 0.55) 100%
-  );
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-  border-radius: 16px;
-  padding: 1.6rem;
+  background: #ffffff;
+  border: 1px solid #7f9db9;
+  border-radius: 3px;
+  padding: 1rem;
   text-align: center;
-  box-shadow: 
-    0 8px 24px rgba(2, 132, 199, 0.15),
-    var(--aero-inner-glow);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
+  box-shadow: inset 1px 1px 0 #fff, 0 1px 3px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   color: inherit;
   display: block;
+  cursor: pointer;
 }
 
 .feature-card:hover {
-  transform: translateY(-6px);
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.9) 0%, 
-    rgba(224, 242, 254, 0.75) 100%
-  );
-  box-shadow: 0 14px 32px rgba(2, 132, 199, 0.28);
+  background: #eef5ff;
+  border-color: #2b72c4;
 }
 
 .feature-icon {
-  font-size: 2.8rem;
-  margin-bottom: 0.8rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(224, 247, 250, 0.8) 50%, rgba(56, 189, 248, 0.3) 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 6px 16px rgba(2, 132, 199, 0.2),
-    inset 0 2px 4px rgba(255, 255, 255, 0.9);
-  transition: transform 0.3s ease;
-}
-
-.feature-card:hover .feature-icon {
-  transform: scale(1.1) rotate(6deg);
+  font-size: 2.2rem;
+  margin-bottom: 6px;
+  display: inline-block;
 }
 
 .feature-card h3 {
-  font-size: 1.25rem;
-  color: #034f84;
-  margin-bottom: 0.4rem;
-  font-weight: 700;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  font-weight: bold;
+  color: #003c74;
+  margin-bottom: 4px;
 }
 
 .feature-card p {
-  font-size: 0.92rem;
-  color: #334155;
-  line-height: 1.5;
+  font-size: 11px;
+  color: #444444;
+  line-height: 1.4;
 }
 
-/* ==========================================================================
-   HOW IT WORKS TIMELINE (Home Page)
-   ========================================================================== */
+/* How It Works Steps */
 .steps-container {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  margin-top: 1.5rem;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 .step {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  background: rgba(255, 255, 255, 0.6);
-  padding: 1rem 1.4rem;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08), inset 0 1px 0 #fff;
-  transition: all 0.2s ease;
-}
-
-.step:hover {
-  background: rgba(255, 255, 255, 0.85);
-  transform: translateX(6px);
+  gap: 10px;
+  background: #ffffff;
+  padding: 8px 12px;
+  border: 1px solid #d0ccbf;
+  border-radius: 2px;
 }
 
 .step-number {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: bold;
   color: #ffffff;
-  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 
-    0 4px 10px rgba(2, 132, 199, 0.35),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  background: #0055ea;
   flex-shrink: 0;
 }
 
 .step p {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #034f84;
+  font-size: 11px;
+  color: #000;
 }
 
 /* ==========================================================================
-   XP PROGRESS BAR & STATS (Profile Page)
+   SEGMENTED GREEN CANDY PROGRESS BAR (Windows XP Classic!)
    ========================================================================== */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.2rem;
-  margin-top: 1.2rem;
-}
-
-.stat-card {
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.8) 0%, 
-    rgba(240, 249, 255, 0.6) 100%
-  );
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  padding: 1.2rem;
-  text-align: center;
-  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.12), inset 0 1px 0 #fff;
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #0284c7;
-  margin-bottom: 0.3rem;
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #034f84;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-/* XP Meter (Windows 7 / Vista style candy tube) */
 .xp-meter-container {
-  margin: 1.5rem 0;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 16px;
-  padding: 1.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin: 10px 0;
+  background: #ffffff;
+  border: 1px solid var(--xp-border-input);
+  padding: 10px;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .xp-meter-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.6rem;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #034f84;
+  margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 11px;
+  color: #003c74;
 }
 
 .xp-bar-track {
   position: relative;
-  height: 24px;
-  background: linear-gradient(180deg, #cbd5e1 0%, #e2e8f0 50%, #94a3b8 100%);
-  border-radius: 9999px;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(255, 255, 255, 0.9);
+  height: 18px;
+  background: #ffffff;
+  border: 1px solid var(--xp-border-input);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.15);
+  padding: 2px;
   overflow: hidden;
 }
 
+/* Classic segmented green candy blocks */
 .xp-bar-fill {
   height: 100%;
-  border-radius: 9999px;
   background: 
     repeating-linear-gradient(
-      -45deg,
-      rgba(255, 255, 255, 0.25) 0px,
-      rgba(255, 255, 255, 0.25) 12px,
-      transparent 12px,
-      transparent 24px
-    ),
-    linear-gradient(180deg, 
-      #86efac 0%, 
-      #4ade80 40%, 
-      #22c55e 50%, 
-      #15803d 100%
+      90deg,
+      #33cc33 0px,
+      #28a428 6px,
+      #1e821e 7px,
+      #ffffff 7px,
+      #ffffff 9px
     );
-  background-size: 200% 100%;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 2px rgba(0, 0, 0, 0.2);
-  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  animation: barStripeMove 20s linear infinite;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  transition: width 0.4s ease;
 }
 
-/* Glassy shine line over XP fill */
-.xp-bar-fill::after {
-  content: "";
-  position: absolute;
-  top: 1px;
-  left: 0;
-  right: 0;
-  height: 45%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.15) 100%);
-  border-radius: 9999px;
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
 }
 
-@keyframes barStripeMove {
-  0% { background-position: 0 0; }
-  100% { background-position: 100% 0; }
+.stat-card {
+  background: #ffffff;
+  border: 1px solid #7f9db9;
+  border-radius: 2px;
+  padding: 8px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 10px;
+  font-weight: bold;
+  color: #555555;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #003c74;
+  margin-top: 2px;
 }
 
 /* ==========================================================================
-   EVENT CARDS & BADGES (Events Page)
+   EVENT CARDS (Windows XP Style)
    ========================================================================== */
 .event-card {
-  backdrop-filter: blur(16px);
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.8) 0%, 
-    rgba(240, 249, 255, 0.6) 100%
-  );
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.15), var(--aero-inner-glow);
+  background: #ffffff;
+  border: 1px solid #7f9db9;
+  border-radius: 3px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(2, 132, 199, 0.24);
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .event-card h4 {
-  font-size: 1.25rem;
-  color: #034f84;
-  font-weight: 700;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  color: #003c74;
+  font-weight: bold;
 }
 
 .event-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0.4rem 0;
+  gap: 4px;
+  margin: 4px 0;
 }
 
 .aero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 0.25rem 0.65rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.05);
+  gap: 3px;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border: 1px solid #aca899;
+  border-radius: 2px;
+  background: #f4f3ed;
 }
 
 .xp-badge {
-  background: linear-gradient(180deg, #fef08a 0%, #facc15 60%, #eab308 100%);
-  color: #713f12;
-  border-color: #fef9c3;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  background: #fff8d6;
+  border-color: #c9b342;
+  color: #574603;
 }
 
 .difficulty-easy {
-  background: linear-gradient(180deg, #bbf7d0 0%, #4ade80 60%, #22c55e 100%);
-  color: #14532d;
-  border-color: #dcfce7;
+  background: #e6f9e6;
+  border-color: #52a652;
+  color: #1a571a;
 }
 
 .difficulty-medium {
-  background: linear-gradient(180deg, #bae6fd 0%, #38bdf8 60%, #0284c7 100%);
-  color: #0c4a6e;
-  border-color: #e0f2fe;
+  background: #e6f2ff;
+  border-color: #4a8fd6;
+  color: #0c3e75;
 }
 
 .difficulty-hard {
-  background: linear-gradient(180deg, #fed7aa 0%, #fb923c 60%, #ea580c 100%);
-  color: #7c2d12;
-  border-color: #ffedd5;
+  background: #fff0e0;
+  border-color: #d67b29;
+  color: #733c09;
 }
 
 .difficulty-very\ hard {
-  background: linear-gradient(180deg, #fbcfe8 0%, #f472b6 60%, #db2777 100%);
-  color: #831843;
-  border-color: #fdf2f8;
+  background: #ffe6e6;
+  border-color: #d64a4a;
+  color: #731212;
 }
 
 .button-group {
   display: flex;
-  gap: 0.6rem;
-  margin-top: 0.6rem;
-  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
 }
 
-/* Event template suggestion pills */
 .template-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .template-pill {
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.35rem 0.8rem;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  color: #034f84;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  border: 1px solid #7f9db9;
+  background: #ffffff;
+  color: #003c74;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.1);
 }
 
 .template-pill:hover {
-  background: #ffffff;
-  color: #0284c7;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+  background: #eef5ff;
 }
 
 /* ==========================================================================
-   SHOP BOOSTER PACKS & HOLOGRAPHIC CARDS
+   SHOP BOOSTER PACKS & CARDS
    ========================================================================== */
 .pack-card {
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.85) 0%, 
-    rgba(240, 249, 255, 0.7) 100%
-  );
+  background: #ffffff;
   border: 2px solid;
-  border-radius: 20px;
-  padding: 2rem 1.5rem;
+  border-radius: 4px;
+  padding: 14px;
   text-align: center;
-  box-shadow: 0 12px 30px rgba(2, 132, 199, 0.18), var(--aero-inner-glow);
-  position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1.2rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Foil sheen across pack */
-.pack-card::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    60deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.35) 50%,
-    transparent 60%
-  );
-  transform: rotate(25deg);
-  transition: transform 0.6s ease;
-  pointer-events: none;
-}
-
-.pack-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 18px 40px rgba(2, 132, 199, 0.32);
-}
-
-.pack-card:hover::after {
-  transform: rotate(25deg) translateY(100%);
+  gap: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .pack-icon {
-  font-size: 3.5rem;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  font-size: 2.8rem;
 }
 
 .pack-card h4 {
-  font-size: 1.4rem;
-  color: #034f84;
-  font-weight: 800;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  color: #003c74;
+  font-weight: bold;
 }
 
 .price {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #0284c7;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #0055ea;
 }
 
 .pack-contents-preview {
-  font-size: 0.82rem;
-  color: #475569;
-  background: rgba(255, 255, 255, 0.6);
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  font-size: 10px;
+  color: #555;
+  background: #f7f6f0;
+  padding: 4px;
+  border: 1px solid #d0ccbf;
+  border-radius: 2px;
 }
 
-/* CARDS GRID & HOLOGRAPHIC FOIL DISPLAY */
+/* Cards Grid */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 1.2rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .card-display {
   aspect-ratio: 5 / 7;
-  border-radius: 14px;
-  padding: 0.8rem 0.5rem;
+  border-radius: 3px;
+  padding: 6px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  position: relative;
-  overflow: hidden;
+  background: #ffffff;
   border: 2px solid;
-  box-shadow: 
-    0 8px 20px rgba(0, 0, 0, 0.12),
-    inset 0 1px 1px rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(240, 249, 255, 0.7) 100%);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   cursor: pointer;
 }
 
 .card-display:hover {
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 16px 32px rgba(2, 132, 199, 0.3);
-}
-
-/* Holographic shine animation */
-.card-display::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.45) 50%,
-    transparent 100%
-  );
-  transform: skewX(-25deg);
-  transition: left 0.75s ease;
-  pointer-events: none;
-}
-
-.card-display:hover::before {
-  left: 200%;
+  filter: brightness(1.05);
+  transform: translateY(-2px);
 }
 
 .card-emoji {
-  font-size: 3rem;
+  font-size: 2.2rem;
   margin: auto 0;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
-  transition: transform 0.3s ease;
-}
-
-.card-display:hover .card-emoji {
-  transform: scale(1.15);
 }
 
 .card-name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #034f84;
-  margin-top: 0.2rem;
+  font-size: 11px;
+  font-weight: bold;
+  color: #003c74;
 }
 
 .card-rarity {
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: 9px;
+  font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.15rem 0.55rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  margin-top: 0.3rem;
+  padding: 1px 4px;
+  border-radius: 2px;
+  color: #fff;
 }
 
-/* Pull Animation Modal */
+/* Pull Celebration Modal (XP Dialog Box Style) */
 .card-pull-animation {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(3, 79, 132, 0.65);
-  backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.4);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.3s ease;
 }
 
 .card-pull-container {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 247, 250, 0.85) 100%);
-  border: 2px solid rgba(255, 255, 255, 0.95);
-  border-radius: 24px;
-  padding: 3rem;
+  background: var(--xp-window-bg);
+  border: 3px solid #0055ea;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 2rem;
   text-align: center;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
-  animation: pullPop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  max-width: 360px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+  max-width: 340px;
   width: 90%;
 }
 
 .card-pull-emoji {
-  font-size: 6rem;
-  margin-bottom: 1rem;
-  animation: pullFloat 2s infinite ease-in-out;
-}
-
-@keyframes pullPop {
-  0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
-  70% { transform: scale(1.1) rotate(4deg); }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
-}
-
-@keyframes pullFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  font-size: 4.5rem;
+  margin: 10px 0;
 }
 
 /* ==========================================================================
-   DELPHIN COMPANION (Floating & Messenger Page)
+   DELPHI COMPANION (MICROSOFT XP SEARCH ASSISTANT STYLE)
    ========================================================================== */
 .companion-container {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 90;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 150;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.8rem;
+  gap: 6px;
 }
 
+/* Classic Windows XP Yellow Balloon Callout Tooltip */
 .companion-speech {
-  backdrop-filter: blur(20px);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 250, 0.88) 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.95);
-  border-radius: 18px;
-  border-bottom-right-radius: 4px;
-  padding: 1rem 1.4rem;
-  max-width: 280px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #034f84;
-  box-shadow: 
-    0 12px 30px rgba(2, 132, 199, 0.25),
-    var(--aero-inner-glow);
-  animation: speechPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #ffffdc;
+  border: 1px solid #000000;
+  border-radius: 3px;
+  padding: 10px 12px;
+  max-width: 250px;
+  font-size: 11px;
+  color: #000000;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   position: relative;
+}
+
+.companion-speech::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-top: 8px solid #ffffdc;
+  border-right: 0 solid transparent;
 }
 
 .companion-speech-actions {
   display: flex;
-  gap: 0.5rem;
-  margin-top: 0.6rem;
-}
-
-.companion-speech-btn {
-  font-size: 0.78rem !important;
-  padding: 0.35rem 0.75rem !important;
-}
-
-@keyframes speechPop {
-  0% { transform: scale(0.7) translateY(10px); opacity: 0; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+  gap: 4px;
+  margin-top: 8px;
 }
 
 .companion {
-  width: 68px;
-  height: 68px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  backdrop-filter: blur(16px);
-  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #bae6fd 45%, #0284c7 100%);
-  border: 2px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    0 10px 25px rgba(2, 132, 199, 0.4),
-    inset 0 2px 4px rgba(255, 255, 255, 0.9);
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbe3ff 50%, #0055ea 100%);
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.4rem;
+  font-size: 2rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
   user-select: none;
-}
-
-/* Floating water ripple ring around companion */
-.companion::after {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: -6px;
-  right: -6px;
-  bottom: -6px;
-  border-radius: 50%;
-  border: 2px solid rgba(56, 189, 248, 0.45);
-  animation: rippleRing 2.5s infinite ease-out;
-  pointer-events: none;
-}
-
-@keyframes rippleRing {
-  0% { transform: scale(0.95); opacity: 1; }
-  100% { transform: scale(1.35); opacity: 0; }
+  transition: transform 0.15s ease;
 }
 
 .companion:hover {
-  transform: scale(1.12) rotate(6deg);
-  box-shadow: 0 14px 32px rgba(2, 132, 199, 0.55);
+  transform: scale(1.1);
 }
 
-/* DELPHIN MESSENGER PAGE (MSN / Aqua iChat Aesthetic) */
+/* Windows Messenger Style Chat */
 .chat-window {
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 16px 40px rgba(2, 132, 199, 0.22);
-  margin-bottom: 2rem;
+  padding: 0;
 }
 
 .chat-messenger-bar {
-  background: linear-gradient(180deg, 
-    rgba(255, 255, 255, 0.95) 0%, 
-    rgba(240, 249, 255, 0.85) 48%, 
-    rgba(219, 234, 254, 0.75) 52%, 
-    rgba(240, 249, 255, 0.9) 100%
-  );
-  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-  padding: 1rem 1.5rem;
+  background: #ece9d8;
+  border-bottom: 1px solid #aca899;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1273,40 +1026,36 @@ input::placeholder, textarea::placeholder {
 .delphin-status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #034f84;
+  gap: 4px;
+  font-size: 10px;
+  color: #1a571a;
+  font-weight: bold;
 }
 
 .status-dot-online {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 8px #22c55e;
+  background: #28a428;
 }
 
 .chat-container {
-  height: 400px;
+  height: 340px;
   overflow-y: auto;
-  padding: 1.5rem;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 16px;
-  margin-bottom: 1.5rem;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid var(--xp-border-input);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 .message-row {
   display: flex;
-  align-items: flex-end;
-  gap: 0.75rem;
-  max-width: 80%;
-  animation: fadeIn 0.25s ease;
+  gap: 6px;
+  max-width: 85%;
 }
 
 .message-row.user {
@@ -1315,124 +1064,90 @@ input::placeholder, textarea::placeholder {
 }
 
 .message-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff 0%, #e0f2fe 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+  background: #ece9d8;
+  border: 1px solid #7f9db9;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 14px;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.15);
 }
 
 .message-bubble {
-  padding: 0.85rem 1.25rem;
-  border-radius: 18px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 1.4;
+  border: 1px solid #aca899;
 }
 
 .message-row.delphin .message-bubble {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(224, 247, 250, 0.85) 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  border-bottom-left-radius: 4px;
-  color: #034f84;
+  background: #ffffdc;
+  border-color: #d1c877;
+  color: #000;
 }
 
 .message-row.user .message-bubble {
-  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-  border-bottom-right-radius: 4px;
-  color: #ffffff;
-  text-shadow: 0 -1px 1px rgba(3, 79, 132, 0.5);
+  background: #eef5ff;
+  border-color: #7f9db9;
+  color: #003c74;
 }
 
-/* Chat prompt chips */
 .chat-prompt-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .prompt-chip {
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.4rem 0.85rem;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  color: #034f84;
+  font-size: 10px;
+  padding: 2px 6px;
+  border: 1px solid #7f9db9;
+  background: #f7f6f0;
+  border-radius: 2px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.1);
 }
 
 .prompt-chip:hover {
-  background: #ffffff;
-  color: #0284c7;
-  transform: translateY(-1px);
+  background: #eef5ff;
+  border-color: #0055ea;
 }
 
 /* ==========================================================================
    ALERTS, NOTICES, & EMPTY STATES
    ========================================================================== */
 .message {
-  padding: 0.8rem 1.2rem;
-  border-radius: 12px;
-  margin-bottom: 1.2rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, rgba(254, 240, 138, 0.85) 0%, rgba(253, 224, 71, 0.7) 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  color: #713f12;
-  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.2);
+  padding: 6px 10px;
+  border: 1px solid #f2aa4c;
+  background: #fff8e8;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #8c4a04;
 }
 
 .empty {
   text-align: center;
-  padding: 2.5rem 1rem;
-  font-size: 1.1rem;
-  color: #0f4c6e;
-  font-weight: 600;
-}
-
-/* ==========================================================================
-   ANIMATIONS & RESPONSIVE
-   ========================================================================== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  padding: 2rem 1rem;
+  font-size: 12px;
+  color: #666666;
 }
 
 @media (max-width: 768px) {
-  .hero-card h1 {
-    font-size: 2rem;
-  }
   .nav-inner {
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  .nav-links {
-    width: 100%;
-    justify-content: center;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    height: auto;
   }
   .container {
+    padding: 0 0.5rem;
     margin-top: 1rem;
-    padding: 0 1rem;
   }
   .card {
-    padding: 1.4rem;
-  }
-  .companion-container {
-    bottom: 1rem;
-    right: 1rem;
+    padding: 1rem;
   }
 }

@@ -10,9 +10,7 @@ const PACK_DEFINITIONS = [
     name: "🐟 Tidal Basic Pack",
     price: 10,
     description: "Common & Rare aquatic life",
-    color: "#22c55e",
-    foilBorder: "rgba(134, 239, 172, 0.9)",
-    gradient: "linear-gradient(135deg, rgba(187, 247, 208, 0.8) 0%, rgba(34, 197, 94, 0.4) 100%)",
+    color: "#28a428",
     icon: "🐟",
     chances: "Fish, Crab, Turtle (Common) • Octopus (Rare)",
   },
@@ -21,9 +19,7 @@ const PACK_DEFINITIONS = [
     name: "🦈 Oceanic Premium Pack",
     price: 25,
     description: "Rare & Epic marine creatures",
-    color: "#0284c7",
-    foilBorder: "rgba(125, 211, 252, 0.9)",
-    gradient: "linear-gradient(135deg, rgba(186, 230, 253, 0.8) 0%, rgba(2, 132, 199, 0.4) 100%)",
+    color: "#0055ea",
     icon: "🦈",
     chances: "Shark, Dolphin (Rare) • Whale (Epic) • Kraken (Legendary)",
   },
@@ -32,9 +28,7 @@ const PACK_DEFINITIONS = [
     name: "🔱 Abyssal Legendary Pack",
     price: 50,
     description: "Epic & Mythic sea deities",
-    color: "#f59e0b",
-    foilBorder: "rgba(253, 224, 71, 0.9)",
-    gradient: "linear-gradient(135deg, rgba(254, 240, 138, 0.8) 0%, rgba(245, 158, 11, 0.4) 100%)",
+    color: "#d67b29",
     icon: "🔱",
     chances: "Mermaid, Sea Serpent (Epic) • Poseidon (Legendary) • Leviathan (Mythic)",
   },
@@ -84,7 +78,7 @@ export default function Shop() {
         setPulledCard(parsed);
         setShowAnimation(true);
         playChimeSound();
-        setMessage(`✨ Pulled ${res.data.card_gained}! Added to your collection.`);
+        setMessage(`You pulled ${res.data.card_gained}! Saved to your collection.`);
         setMoney(res.data.money_remaining);
         setCards(res.data.cards || []);
       } else {
@@ -102,58 +96,59 @@ export default function Shop() {
       {!username ? (
         <div className="card">
           <div className="window-header">
+            <span className="window-title">
+              <span>🛍️</span>
+              <span>Shop Properties</span>
+            </span>
             <div className="window-dots">
-              <span className="window-dot dot-red" />
-              <span className="window-dot dot-yellow" />
-              <span className="window-dot dot-green" />
+              <span className="xp-btn-ctrl xp-btn-min">_</span>
+              <span className="xp-btn-ctrl xp-btn-max">□</span>
+              <span className="xp-btn-ctrl xp-btn-close">✕</span>
             </div>
-            <span className="window-title">🛍️ Aquatic Card Shop</span>
           </div>
           <div className="empty">
-            <p style={{ fontSize: "1.2rem", marginBottom: "1rem" }}>
-              Please create or sign into your profile to browse and buy card packs!
+            <p style={{ marginBottom: "10px" }}>
+              Please log on or create your profile to browse and buy creature card packs!
             </p>
             <Link
               to="/profile"
-              className="btn"
+              className="btn btn-primary"
               onClick={() => playBubbleSound()}
             >
-              👤 Go to Profile
+              Go to Profile
             </Link>
           </div>
         </div>
       ) : (
         <>
-          {/* Shop Header & Booster Packs Window */}
+          {/* Shop Window */}
           <div className="card">
             <div className="window-header">
-              <div className="window-dots">
-                <span className="window-dot dot-red" />
-                <span className="window-dot dot-yellow" />
-                <span className="window-dot dot-green" />
-              </div>
-              <span className="window-title">🛍️ Delphin Card Exchange • Aquatic Packs</span>
-              <span style={{ fontSize: "0.85rem", color: "#0284c7", fontWeight: 700 }}>
-                💰 Balance: ${money.toFixed(2)}
+              <span className="window-title">
+                <span>🛍️</span>
+                <span>Aquatic Card Exchange - Booster Pack Shop</span>
               </span>
+              <div className="window-dots">
+                <span className="xp-btn-ctrl xp-btn-min">_</span>
+                <span className="xp-btn-ctrl xp-btn-max">□</span>
+                <span className="xp-btn-ctrl xp-btn-close">✕</span>
+              </div>
             </div>
 
             {message && <div className="message">{message}</div>}
 
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
-              <p style={{ color: "#0f4c6e", fontWeight: 600 }}>
-                Spend your earned sustainability eco-funds on holographic marine booster packs.
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
+              <p style={{ color: "#333", fontSize: "11px" }}>
+                Spend your earned sustainability eco-funds on collectible marine creature booster packs.
               </p>
               <div
                 style={{
-                  background: "linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%)",
-                  padding: "0.5rem 1.2rem",
-                  borderRadius: "9999px",
-                  border: "1.5px solid #7dd3fc",
-                  fontSize: "1.1rem",
-                  fontWeight: 800,
-                  color: "#034f84",
-                  boxShadow: "0 2px 8px rgba(2, 132, 199, 0.2)",
+                  background: "#ffffff",
+                  padding: "4px 10px",
+                  border: "1px solid #7f9db9",
+                  fontWeight: "bold",
+                  color: "#003c74",
+                  fontSize: "12px",
                 }}
               >
                 💰 Available Funds: ${money.toFixed(2)}
@@ -168,15 +163,12 @@ export default function Shop() {
                   <div
                     key={pack.type}
                     className="pack-card"
-                    style={{
-                      borderColor: pack.foilBorder,
-                      background: pack.gradient,
-                    }}
+                    style={{ borderColor: pack.color }}
                   >
                     <div>
                       <div className="pack-icon">{pack.icon}</div>
                       <h4>{pack.name}</h4>
-                      <p style={{ color: "#334155", margin: "0.4rem 0 0.8rem", fontSize: "0.95rem" }}>
+                      <p style={{ color: "#555", margin: "4px 0 8px", fontSize: "11px" }}>
                         {pack.description}
                       </p>
                       <div className="pack-contents-preview">
@@ -189,14 +181,14 @@ export default function Shop() {
                       <button
                         onClick={() => buyPack(pack.type)}
                         disabled={!canAfford || loading}
-                        className={!canAfford ? "btn-disabled" : ""}
-                        style={{ width: "100%", marginTop: "0.8rem" }}
+                        className={!canAfford ? "btn-disabled" : "btn-primary"}
+                        style={{ width: "100%", marginTop: "6px" }}
                       >
                         {loading
-                          ? "Opening..."
+                          ? "Opening Pack..."
                           : !canAfford
                           ? "Insufficient Funds"
-                          : `✨ Open Pack ($${pack.price})`}
+                          : `Buy Pack ($${pack.price})`}
                       </button>
                     </div>
                   </div>
@@ -205,7 +197,7 @@ export default function Shop() {
             </div>
           </div>
 
-          {/* Grand Holographic Pull Celebration Modal */}
+          {/* Windows XP Dialog Box for Card Pull */}
           {showAnimation && pulledCard && (
             <div
               className="card-pull-animation"
@@ -215,11 +207,18 @@ export default function Shop() {
                 className="card-pull-container"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "#034f84", marginBottom: "0.5rem" }}>
-                  🎉 NEW CREATURE UNLOCKED!
+                <div className="window-header" style={{ margin: "-2rem -2rem 1rem -2rem" }}>
+                  <span className="window-title">
+                    <span>🎉</span>
+                    <span>New Card Discovered!</span>
+                  </span>
+                  <div className="window-dots">
+                    <span className="xp-btn-ctrl xp-btn-close" onClick={() => setShowAnimation(false)}>✕</span>
+                  </div>
                 </div>
+
                 <div className="card-pull-emoji">{pulledCard.emoji}</div>
-                <h2 style={{ color: "#034f84", marginBottom: "0.4rem" }}>
+                <h2 style={{ color: "#003c74", fontSize: "16px", marginBottom: "4px" }}>
                   {pulledCard.name}
                 </h2>
                 <div
@@ -227,23 +226,23 @@ export default function Shop() {
                   style={{
                     background: pulledCard.config.gradient,
                     color: "#fff",
-                    fontSize: "0.95rem",
-                    padding: "0.4rem 1rem",
-                    margin: "0.6rem auto",
+                    fontSize: "11px",
+                    padding: "3px 8px",
+                    margin: "4px auto",
                     display: "inline-flex",
                   }}
                 >
                   {pulledCard.rarity}
                 </div>
-                <p style={{ color: "#475569", margin: "1rem 0" }}>
+                <p style={{ color: "#444", margin: "8px 0 14px", fontSize: "11px" }}>
                   Added to your collection and saved to your profile!
                 </p>
                 <button
-                  className="btn"
+                  className="btn btn-primary"
                   onClick={() => setShowAnimation(false)}
-                  style={{ width: "100%" }}
+                  style={{ minWidth: "100px" }}
                 >
-                  ✓ Collect & Continue
+                  OK / Collect
                 </button>
               </div>
             </div>
@@ -252,19 +251,15 @@ export default function Shop() {
           {/* User's Card Collection Preview */}
           <div className="card">
             <div className="window-header">
+              <span className="window-title">
+                <span>🎴</span>
+                <span>My Collection ({cards.length})</span>
+              </span>
               <div className="window-dots">
-                <span className="window-dot dot-red" />
-                <span className="window-dot dot-yellow" />
-                <span className="window-dot dot-green" />
+                <span className="xp-btn-ctrl xp-btn-min">_</span>
+                <span className="xp-btn-ctrl xp-btn-max">□</span>
+                <span className="xp-btn-ctrl xp-btn-close">✕</span>
               </div>
-              <span className="window-title">🎴 Your Aquatic Collection ({cards.length})</span>
-              <Link
-                to="/profile"
-                style={{ fontSize: "0.85rem", color: "#0284c7", fontWeight: 700, textDecoration: "none" }}
-                onClick={() => playBubbleSound()}
-              >
-                View Full Profile →
-              </Link>
             </div>
 
             {cards.length === 0 ? (
@@ -279,10 +274,7 @@ export default function Shop() {
                     <div
                       key={idx}
                       className="card-display"
-                      style={{
-                        borderColor: card.config.border,
-                        boxShadow: `0 8px 20px ${card.config.glow}, inset 0 1px 1px rgba(255, 255, 255, 0.85)`,
-                      }}
+                      style={{ borderColor: card.config.border }}
                       onClick={() => playBubbleSound()}
                       title={`${card.name} (${card.rarity})`}
                     >
@@ -290,11 +282,7 @@ export default function Shop() {
                       <div className="card-emoji">{card.emoji}</div>
                       <div
                         className="card-rarity"
-                        style={{
-                          background: card.config.gradient,
-                          color: "#fff",
-                          textShadow: "0 1px 2px rgba(0,0,0,0.4)",
-                        }}
+                        style={{ background: card.config.gradient }}
                       >
                         {card.rarity}
                       </div>

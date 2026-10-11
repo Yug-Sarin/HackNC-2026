@@ -7,7 +7,7 @@ const QUICK_PROMPTS = [
   "⭐ How do I earn the most XP today?",
   "🦈 What is the rarest card in the shop?",
   "🐬 Tell me a cool dolphin fact!",
-  "🌿 Why does campus sustainability matter?",
+  "🌿 How can students reduce food waste on campus?",
 ];
 
 export default function Delphin() {
@@ -15,7 +15,7 @@ export default function Delphin() {
   const [messages, setMessages] = useState([
     {
       role: "delphin",
-      content: "Hey there! 🐬 I'm Delphin, your campus sustainability companion. How can I help you make our campus cleaner and greener today?",
+      content: "Hey there! 🐬 I'm Delphi, your campus sustainability mascot. How can I help you complete your eco quests today?",
       time: "Just now",
     },
   ]);
@@ -61,7 +61,7 @@ export default function Delphin() {
         ...prev,
         {
           role: "delphin",
-          content: "Delphin is taking a quick swim break in the campus stream! Make sure the backend server is running and try again in a moment. 🌊",
+          content: "Delphi is taking a quick swim break in the campus stream! Make sure the backend server is running and try again in a moment. 🌊",
           time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         },
       ]);
@@ -72,40 +72,41 @@ export default function Delphin() {
 
   return (
     <div>
-      {/* Messenger Aero Window */}
-      <div className="card chat-window" style={{ padding: 0 }}>
+      {/* Windows Messenger Window */}
+      <div className="card chat-window">
         {/* Title Bar */}
-        <div className="window-header" style={{ margin: 0, borderRadius: 0 }}>
+        <div className="window-header" style={{ margin: 0 }}>
+          <span className="window-title">
+            <span>🐬</span>
+            <span>Delphi Instant Messenger - Campus Mascot Edition</span>
+          </span>
           <div className="window-dots">
-            <span className="window-dot dot-red" />
-            <span className="window-dot dot-yellow" />
-            <span className="window-dot dot-green" />
+            <span className="xp-btn-ctrl xp-btn-min">_</span>
+            <span className="xp-btn-ctrl xp-btn-max">□</span>
+            <span className="xp-btn-ctrl xp-btn-close">✕</span>
           </div>
-          <span className="window-title">🐬 Delphin Live Messenger • Sustainability Companion</span>
-          <span style={{ fontSize: "0.8rem", color: "#10b981", fontWeight: 700 }}>v2026.1</span>
         </div>
 
         {/* Messenger Contact Status Bar */}
         <div className="chat-messenger-bar">
-          <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <div
               style={{
-                width: "44px",
-                height: "44px",
-                borderRadius: "50%",
-                background: "radial-gradient(circle at 35% 35%, #ffffff 0%, #bae6fd 60%, #0284c7 100%)",
-                border: "1.5px solid #fff",
+                width: "36px",
+                height: "36px",
+                borderRadius: "3px",
+                background: "#ffffff",
+                border: "1px solid #7f9db9",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "1.6rem",
-                boxShadow: "0 2px 8px rgba(2, 132, 199, 0.25)",
+                fontSize: "1.4rem",
               }}
             >
               🐬
             </div>
             <div>
-              <div style={{ fontWeight: 800, color: "#034f84", fontSize: "1.05rem" }}>
+              <div style={{ fontWeight: "bold", color: "#003c74", fontSize: "12px" }}>
                 Delphi the Dolphin
               </div>
               <div className="delphin-status-badge">
@@ -115,13 +116,13 @@ export default function Delphin() {
             </div>
           </div>
 
-          <div style={{ fontSize: "0.85rem", color: "#64748b", fontWeight: 600 }}>
-            Powered by HackNC 2026
+          <div style={{ fontSize: "11px", color: "#555" }}>
+            Windows XP Messenger v5.1
           </div>
         </div>
 
         {/* Chat Stream */}
-        <div style={{ padding: "1.5rem" }}>
+        <div style={{ padding: "12px" }}>
           <div className="chat-container">
             {messages.map((msg, idx) => (
               <div key={idx} className={`message-row ${msg.role}`}>
@@ -132,11 +133,10 @@ export default function Delphin() {
                   <div className="message-bubble">{msg.content}</div>
                   <div
                     style={{
-                      fontSize: "0.72rem",
-                      color: "#64748b",
-                      marginTop: "0.2rem",
+                      fontSize: "9px",
+                      color: "#777",
+                      marginTop: "2px",
                       textAlign: msg.role === "user" ? "right" : "left",
-                      padding: "0 0.4rem",
                     }}
                   >
                     {msg.time}
@@ -147,8 +147,8 @@ export default function Delphin() {
             {loading && (
               <div className="message-row delphin">
                 <div className="message-avatar">🐬</div>
-                <div className="message-bubble" style={{ fontStyle: "italic", color: "#0284c7" }}>
-                  Delphi is thinking & splashing water... 🫧
+                <div className="message-bubble" style={{ fontStyle: "italic", color: "#003c74" }}>
+                  Delphi is splashing water & thinking... 🫧
                 </div>
               </div>
             )}
@@ -156,9 +156,9 @@ export default function Delphin() {
           </div>
 
           {/* Quick Prompt Chips */}
-          <div style={{ marginBottom: "0.8rem" }}>
-            <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "#034f84", display: "block", marginBottom: "0.4rem" }}>
-              💡 Quick Prompts:
+          <div style={{ marginBottom: "8px" }}>
+            <span style={{ fontSize: "11px", fontWeight: "bold", color: "#003c74", display: "block", marginBottom: "4px" }}>
+              Suggested Messages:
             </span>
             <div className="chat-prompt-chips">
               {QUICK_PROMPTS.map((prompt, idx) => (
@@ -185,18 +185,19 @@ export default function Delphin() {
                   handleSend();
                 }
               }}
-              placeholder="Ask Delphi about campus events, tips, or sustainable living... (Press Enter to send)"
+              placeholder="Type your message here... (Press Enter to send)"
               rows="2"
             />
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: "0.8rem", color: "#64748b" }}>
-                Press <strong>Enter</strong> to send, <strong>Shift + Enter</strong> for new line
+              <span style={{ fontSize: "10px", color: "#666" }}>
+                Press <strong>Enter</strong> to send
               </span>
               <button
                 onClick={() => handleSend()}
                 disabled={!message.trim() || loading}
+                className="btn btn-primary"
               >
-                {loading ? "Splashing..." : "💬 Send to Delphi"}
+                {loading ? "Sending..." : "Send Message"}
               </button>
             </div>
           </div>

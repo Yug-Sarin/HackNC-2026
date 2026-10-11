@@ -20,63 +20,71 @@ export default function Home() {
 
   return (
     <div>
-      {/* Hero Window */}
+      {/* Windows XP Program Window */}
       <div className="card hero-card">
         <div className="window-header">
+          <span className="window-title">
+            <span>🐬</span>
+            <span>Campus Sustainability Hub - Microsoft Windows XP Edition</span>
+          </span>
           <div className="window-dots">
-            <span className="window-dot dot-red" />
-            <span className="window-dot dot-yellow" />
-            <span className="window-dot dot-green" />
+            <span className="xp-btn-ctrl xp-btn-min">_</span>
+            <span className="xp-btn-ctrl xp-btn-max">□</span>
+            <span className="xp-btn-ctrl xp-btn-close">✕</span>
           </div>
-          <span className="window-title">🐬 Delphin OS • Campus Sustainability Hub</span>
-          <span style={{ fontSize: "0.8rem", color: "#0284c7", fontWeight: 700 }}>v2026.1</span>
         </div>
 
-        <h1>🌍 Campus Sustainability Hub</h1>
-        <p className="subtitle">
-          Experience the future of campus eco-action with nostalgic 2000s optimism. 
-          Discover volunteer opportunities, earn XP, open holographic aquatic card packs, 
-          and bond with your dolphin companion while restoring the planet.
-        </p>
+        <div className="hero-layout">
+          <div className="hero-banner-icon">
+            🐬
+          </div>
+          <div style={{ flex: 1 }}>
+            <h1>Campus Sustainability Hub</h1>
+            <p className="subtitle">
+              Welcome to the official campus eco-initiative! Search and join volunteer cleanup drives,
+              earn sustainability XP, open collectible creature card packs, and hang out with Delphi the dolphin mascot.
+            </p>
 
-        <div className="hero-actions">
-          {!username ? (
-            <Link
-              to="/profile"
-              className="btn"
-              onClick={() => playBubbleSound()}
-            >
-              🚀 Create Your Profile
-            </Link>
-          ) : (
-            <Link
-              to="/profile"
-              className="btn"
-              onClick={() => playBubbleSound()}
-            >
-              👤 Welcome back, {username}!
-            </Link>
-          )}
+            <div className="hero-actions">
+              {!username ? (
+                <Link
+                  to="/profile"
+                  className="btn btn-primary"
+                  onClick={() => playBubbleSound()}
+                >
+                  Create User Profile
+                </Link>
+              ) : (
+                <Link
+                  to="/profile"
+                  className="btn btn-primary"
+                  onClick={() => playBubbleSound()}
+                >
+                  Logged in as {username}
+                </Link>
+              )}
 
-          <Link
-            to="/events"
-            className="btn btn-secondary"
-            onClick={() => playBubbleSound()}
-          >
-            📅 Browse Events ({eventCount})
-          </Link>
+              <Link
+                to="/events"
+                className="btn"
+                onClick={() => playBubbleSound()}
+              >
+                Browse Events ({eventCount})
+              </Link>
 
-          <Link
-            to="/shop"
-            className="btn btn-secondary"
-            onClick={() => playBubbleSound()}
-          >
-            🛍️ Open Card Packs
-          </Link>
+              <Link
+                to="/shop"
+                className="btn"
+                onClick={() => playBubbleSound()}
+              >
+                Card Pack Shop
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Feature Grid with Frutiger Aero Glass Cards */}
+      {/* Feature Grid with Windows XP Panels */}
       <div className="grid">
         <Link
           to="/events"
@@ -85,7 +93,7 @@ export default function Home() {
         >
           <div className="feature-icon">📅</div>
           <h3>Volunteer Events</h3>
-          <p>Find local cleanups, tree planting, and green campus initiatives.</p>
+          <p>Find local cleanups, tree plantings, and community eco-actions.</p>
         </Link>
 
         <Link
@@ -95,7 +103,7 @@ export default function Home() {
         >
           <div className="feature-icon">⭐</div>
           <h3>XP & Level Meter</h3>
-          <p>Complete eco-challenges, gain XP, and level up from Eco-Sprout to Ocean Sovereign.</p>
+          <p>Complete events, gain XP points, and climb the sustainability ranks.</p>
         </Link>
 
         <Link
@@ -104,8 +112,8 @@ export default function Home() {
           onClick={() => playBubbleSound()}
         >
           <div className="feature-icon">🎴</div>
-          <h3>Aquatic Card Packs</h3>
-          <p>Collect rare sea creatures from Common Clownfish to Mythic Leviathans.</p>
+          <h3>Creature Card Packs</h3>
+          <p>Collect rare marine creatures from common crabs to mythical leviathans.</p>
         </Link>
 
         <Link
@@ -114,37 +122,42 @@ export default function Home() {
           onClick={() => playBubbleSound()}
         >
           <div className="feature-icon">🐬</div>
-          <h3>Delphin Companion</h3>
-          <p>Your cheerful AI companion giving you tailored eco-coaching and optimism.</p>
+          <h3>Delphi Mascot</h3>
+          <p>Chat with your cheerful dolphin companion for quick tips and motivation.</p>
         </Link>
       </div>
 
       {/* How It Works Section */}
-      <div className="card" style={{ marginTop: "2rem" }}>
+      <div className="card" style={{ marginTop: "1.5rem" }}>
         <div className="window-header">
+          <span className="window-title">
+            <span>ℹ️</span>
+            <span>Instructions - How It Works</span>
+          </span>
           <div className="window-dots">
-            <span className="window-dot dot-red" />
-            <span className="window-dot dot-yellow" />
-            <span className="window-dot dot-green" />
+            <span className="xp-btn-ctrl xp-btn-min">_</span>
+            <span className="xp-btn-ctrl xp-btn-max">□</span>
+            <span className="xp-btn-ctrl xp-btn-close">✕</span>
           </div>
-          <span className="window-title">✨ How It Works • 5 Simple Steps</span>
-          <span style={{ fontSize: "0.8rem", color: "#10b981", fontWeight: 700 }}>● Active</span>
         </div>
 
-        <div className="steps-container">
-          {[
-            { num: 1, text: "Create your student profile and receive $100 starting eco-funds." },
-            { num: 2, text: "Explore available sustainability events or create your own." },
-            { num: 3, text: "RSVP to events and mark them complete to gain XP." },
-            { num: 4, text: "Visit the shop to open Basic, Premium, and Legendary card packs." },
-            { num: 5, text: "Chat with Delphin anytime for tips, encouragement, and ocean facts." },
-          ].map((step) => (
-            <div key={step.num} className="step">
-              <div className="step-number">{step.num}</div>
-              <p>{step.text}</p>
-            </div>
-          ))}
-        </div>
+        <fieldset className="xp-groupbox">
+          <legend className="xp-legend">Step-by-Step Overview</legend>
+          <div className="steps-container">
+            {[
+              { num: 1, text: "Create your student profile and receive $100.00 starting eco-funds." },
+              { num: 2, text: "Browse campus sustainability volunteer events or create a new event." },
+              { num: 3, text: "RSVP to events and mark them complete to gain sustainability XP." },
+              { num: 4, text: "Visit the shop to buy Basic, Premium, and Legendary creature packs." },
+              { num: 5, text: "Talk to Delphi the dolphin mascot anytime for encouragement and advice." },
+            ].map((step) => (
+              <div key={step.num} className="step">
+                <div className="step-number">{step.num}</div>
+                <p>{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </fieldset>
       </div>
     </div>
   );

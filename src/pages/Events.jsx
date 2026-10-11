@@ -5,7 +5,7 @@ import { playBubbleSound, playChimeSound } from "../utils/soundHelper";
 
 const EVENT_PRESETS = [
   { name: "🌊 Campus Stream & Pond Cleanup", duration: 2.5 },
-  { name: "🌳 Native Trees & Garden Planting", duration: 2.0 },
+  { name: "🌳 Fetzer Native Tree Planting", duration: 2.0 },
   { name: "🍱 Dining Hall Surplus Food Rescue", duration: 1.0 },
   { name: "🔋 Student E-Waste Recycling Drive", duration: 1.5 },
   { name: "☀️ Campus Solar Array Maintenance", duration: 3.5 },
@@ -43,7 +43,6 @@ export default function Events() {
     try {
       const res = await api.get("/api/events");
       setEvents(res.data);
-      // Determine next available event ID
       if (res.data.length > 0) {
         const maxId = Math.max(...res.data.map((e) => e.event_id || 0));
         setEventId(maxId + 1);
@@ -119,101 +118,107 @@ export default function Events() {
 
   return (
     <div>
-      {/* Create New Event Window */}
+      {/* Event Creator Window */}
       <div className="card">
         <div className="window-header">
+          <span className="window-title">
+            <span>🌱</span>
+            <span>Task Manager - Create Volunteer Event Wizard</span>
+          </span>
           <div className="window-dots">
-            <span className="window-dot dot-red" />
-            <span className="window-dot dot-yellow" />
-            <span className="window-dot dot-green" />
+            <span className="xp-btn-ctrl xp-btn-min">_</span>
+            <span className="xp-btn-ctrl xp-btn-max">□</span>
+            <span className="xp-btn-ctrl xp-btn-close">✕</span>
           </div>
-          <span className="window-title">🌱 Event Creator • Campus Sustainability</span>
-          <span style={{ fontSize: "0.8rem", color: "#0284c7", fontWeight: 700 }}>Host Action</span>
         </div>
 
         {message && <div className="message">{message}</div>}
 
-        <p style={{ marginBottom: "0.8rem", color: "#0f4c6e", fontWeight: 600 }}>
-          Quick-select a campus sustainability template or configure your own initiative:
-        </p>
-
-        <div className="template-pills">
-          {EVENT_PRESETS.map((preset, idx) => (
-            <button
-              key={idx}
-              className="template-pill"
-              onClick={() => applyPreset(preset)}
-              type="button"
-            >
-              + {preset.name}
-            </button>
-          ))}
-        </div>
-
-        <div className="stack">
-          <div className="form-row">
-            <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, color: "#034f84", marginBottom: "0.3rem" }}>
-                Event Name
-              </label>
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Campus Stream Cleanup"
-              />
-            </div>
-            <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, color: "#034f84", marginBottom: "0.3rem" }}>
-                Event ID
-              </label>
-              <input
-                type="number"
-                value={eventId}
-                onChange={(e) => setEventId(parseInt(e.target.value, 10) || 1)}
-                placeholder="Unique ID"
-              />
-            </div>
-            <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, color: "#034f84", marginBottom: "0.3rem" }}>
-                Duration (Hours)
-              </label>
-              <input
-                type="number"
-                step="0.5"
-                min="0.5"
-                max="12"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                placeholder="e.g. 2.0"
-              />
-            </div>
+        <fieldset className="xp-groupbox">
+          <legend className="xp-legend">Event Templates</legend>
+          <div className="template-pills">
+            {EVENT_PRESETS.map((preset, idx) => (
+              <button
+                key={idx}
+                className="template-pill"
+                onClick={() => applyPreset(preset)}
+                type="button"
+              >
+                + {preset.name}
+              </button>
+            ))}
           </div>
 
-          <button onClick={createEvent} disabled={loading} style={{ alignSelf: "flex-start" }}>
-            {loading ? "Adding to Campus Hub..." : "✨ Publish Event"}
-          </button>
-        </div>
+          <div className="stack" style={{ marginTop: "10px" }}>
+            <div className="form-row">
+              <div>
+                <label style={{ display: "block", fontSize: "11px", fontWeight: "bold", color: "#003c74", marginBottom: "3px" }}>
+                  Event Name:
+                </label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Campus Stream Cleanup"
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: "11px", fontWeight: "bold", color: "#003c74", marginBottom: "3px" }}>
+                  Event ID:
+                </label>
+                <input
+                  type="number"
+                  value={eventId}
+                  onChange={(e) => setEventId(parseInt(e.target.value, 10) || 1)}
+                  placeholder="Unique ID"
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: "11px", fontWeight: "bold", color: "#003c74", marginBottom: "3px" }}>
+                  Duration (Hours):
+                </label>
+                <input
+                  type="number"
+                  step="0.5"
+                  min="0.5"
+                  max="12"
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  placeholder="e.g. 2.0"
+                />
+              </div>
+            </div>
+
+            <button
+              onClick={createEvent}
+              disabled={loading}
+              className="btn btn-primary"
+              style={{ alignSelf: "flex-start", marginTop: "4px" }}
+            >
+              {loading ? "Adding Event..." : "Add to Calendar"}
+            </button>
+          </div>
+        </fieldset>
       </div>
 
       {/* Available Events Listing Window */}
       <div className="card">
         <div className="window-header">
-          <div className="window-dots">
-            <span className="window-dot dot-red" />
-            <span className="window-dot dot-yellow" />
-            <span className="window-dot dot-green" />
-          </div>
-          <span className="window-title">📅 Campus Volunteer Opportunities ({events.length})</span>
-          <span style={{ fontSize: "0.8rem", color: "#10b981", fontWeight: 700 }}>
-            {username ? `Signed in as ${username}` : "Sign in to RSVP"}
+          <span className="window-title">
+            <span>📅</span>
+            <span>Campus Volunteer Opportunities ({events.length})</span>
           </span>
+          <div className="window-dots">
+            <span className="xp-btn-ctrl xp-btn-min">_</span>
+            <span className="xp-btn-ctrl xp-btn-max">□</span>
+            <span className="xp-btn-ctrl xp-btn-close">✕</span>
+          </div>
         </div>
 
         {!username && (
-          <div style={{ marginBottom: "1.2rem", padding: "0.8rem 1.2rem", borderRadius: "12px", background: "rgba(255,255,255,0.7)", border: "1px solid rgba(255,255,255,0.9)" }}>
+          <div style={{ marginBottom: "10px", padding: "6px 10px", background: "#fff", border: "1px solid #7f9db9" }}>
             <span>💡 <strong>Tip:</strong> </span>
-            <Link to="/profile" style={{ color: "#0284c7", fontWeight: 700 }}>
-              Create or sign into your profile
+            <Link to="/profile" style={{ color: "#0055ea", fontWeight: "bold" }}>
+              Log on or create your profile
             </Link>{" "}
             to RSVP and earn sustainability XP!
           </div>
@@ -235,7 +240,7 @@ export default function Events() {
                     <h4>{event.name}</h4>
 
                     <div className="event-meta">
-                      <span className="aero-badge" style={{ background: "rgba(255, 255, 255, 0.7)" }}>
+                      <span className="aero-badge">
                         ⏱️ {event.duration}h
                       </span>
                       <span className="aero-badge xp-badge">
@@ -246,7 +251,7 @@ export default function Events() {
                       </span>
                     </div>
 
-                    <p style={{ fontSize: "0.88rem", color: "#334155", margin: "0.6rem 0", lineHeight: "1.4" }}>
+                    <p style={{ fontSize: "11px", color: "#444", margin: "6px 0", lineHeight: "1.4" }}>
                       {event.description}
                     </p>
                   </div>
@@ -255,14 +260,14 @@ export default function Events() {
                     {completed ? (
                       <div
                         style={{
-                          background: "linear-gradient(180deg, #dcfce7 0%, #86efac 100%)",
-                          color: "#166534",
-                          padding: "0.45rem 0.8rem",
-                          borderRadius: "10px",
-                          fontWeight: 700,
-                          fontSize: "0.9rem",
+                          background: "#e6f9e6",
+                          color: "#1a571a",
+                          padding: "4px 8px",
+                          borderRadius: "2px",
+                          fontWeight: "bold",
+                          fontSize: "10px",
                           textAlign: "center",
-                          border: "1px solid #bbf7d0",
+                          border: "1px solid #52a652",
                         }}
                       >
                         ✓ Completed & XP Awarded!
@@ -272,28 +277,29 @@ export default function Events() {
                         {!rsvped ? (
                           <button
                             onClick={() => rsvpEvent(event.event_id)}
+                            className="btn btn-primary"
                             style={{ flex: 1 }}
                           >
-                            📅 RSVP
+                            RSVP
                           </button>
                         ) : (
                           <button
                             onClick={() => completeEvent(event.event_id)}
-                            className="btn-success"
+                            className="btn btn-success"
                             style={{ flex: 1 }}
                           >
-                            🏆 Mark Complete (+{event.xp} XP)
+                            Mark Complete (+{event.xp} XP)
                           </button>
                         )}
                       </div>
                     ) : (
                       <Link
                         to="/profile"
-                        className="btn btn-secondary"
+                        className="btn"
                         style={{ width: "100%" }}
                         onClick={() => playBubbleSound()}
                       >
-                        Sign in to Join
+                        Log on to Join
                       </Link>
                     )}
                   </div>

@@ -9,11 +9,11 @@ import api from "./api";
 import { playBubbleSound, isSoundEnabled, setSoundEnabled } from "./utils/soundHelper";
 
 const companionMessages = [
-  "I believe in you — tiny eco actions add up! 🌊",
-  "Let's find a volunteer event and make campus greener! 🌿",
-  "Every sustainable choice counts. You're doing great! 🐬",
-  "You've got this — keep building a cleaner tomorrow! ✨",
-  "Collect cards, gain XP, and swim towards sustainability! 🪸",
+  "Welcome to Campus Sustainability! Tiny eco actions add up. 🌊",
+  "Ready to find a volunteer event and help make campus greener? 🌿",
+  "Every sustainable choice counts toward restoring the bay! 🐬",
+  "Check the Events tab to complete tasks and earn XP! ⭐",
+  "Visit the Card Shop to collect rare marine creatures! 🎴",
 ];
 
 export default function App() {
@@ -45,7 +45,6 @@ export default function App() {
     };
 
     updateStats();
-    // Poll or re-check stats periodically
     const interval = setInterval(updateStats, 8000);
     return () => clearInterval(interval);
   }, []);
@@ -65,18 +64,7 @@ export default function App() {
 
   return (
     <Router>
-      {/* Animated Frutiger Aero floating bubbles */}
-      <div className="aero-bubbles-container" aria-hidden="true">
-        <div className="aero-bubble" />
-        <div className="aero-bubble" />
-        <div className="aero-bubble" />
-        <div className="aero-bubble" />
-        <div className="aero-bubble" />
-        <div className="aero-bubble" />
-        <div className="aero-bubble" />
-        <div className="aero-bubble" />
-      </div>
-
+      {/* Windows XP Luna Taskbar */}
       <nav className="nav">
         <div className="nav-inner">
           <Link
@@ -85,7 +73,7 @@ export default function App() {
             onClick={() => playBubbleSound()}
           >
             <span className="logo-dolphin-icon">🐬</span>
-            <span>HackNC 2026</span>
+            <span>start</span>
           </Link>
 
           <div className="nav-links">
@@ -94,51 +82,57 @@ export default function App() {
               className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
               onClick={() => playBubbleSound()}
             >
-              🏠 Home
+              <span>🏠</span>
+              <span>Home Hub</span>
             </NavLink>
             <NavLink
               to="/profile"
               className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
               onClick={() => playBubbleSound()}
             >
-              👤 Profile
+              <span>👤</span>
+              <span>User Profile</span>
             </NavLink>
             <NavLink
               to="/events"
               className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
               onClick={() => playBubbleSound()}
             >
-              📅 Events
+              <span>📅</span>
+              <span>Volunteer Events</span>
             </NavLink>
             <NavLink
               to="/shop"
               className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
               onClick={() => playBubbleSound()}
             >
-              🛍️ Shop
+              <span>🛍️</span>
+              <span>Card Shop</span>
             </NavLink>
             <NavLink
               to="/delphin"
               className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
               onClick={() => playBubbleSound()}
             >
-              🐬 Delphin
+              <span>🐬</span>
+              <span>Delphi Messenger</span>
             </NavLink>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+          {/* Windows XP System Tray */}
+          <div className="nav-status-pill">
             {userStats.username && (
-              <div className="nav-status-pill">
-                <span className="nav-status-item">👤 {userStats.username}</span>
+              <>
+                <span className="nav-status-item">{userStats.username}</span>
                 <span className="nav-status-item">⭐ {userStats.xp} XP</span>
                 <span className="nav-status-item">💰 ${userStats.money.toFixed(2)}</span>
-              </div>
+              </>
             )}
 
             <button
               className="sound-toggle-btn"
               onClick={toggleSound}
-              title={soundOn ? "Sound Effects Enabled (Click to Mute)" : "Sound Effects Muted (Click to Unmute)"}
+              title={soundOn ? "Mute Sound" : "Enable Sound"}
               aria-label="Toggle sound"
             >
               {soundOn ? "🔊" : "🔇"}
@@ -157,6 +151,7 @@ export default function App() {
         </Routes>
       </main>
 
+      {/* Delphi the Search Assistant Companion (Windows XP Style) */}
       <div className="companion-container">
         {speechOpen && (
           <div className="companion-speech">
@@ -164,19 +159,21 @@ export default function App() {
             <div className="companion-speech-actions">
               <Link
                 to="/delphin"
-                className="btn companion-speech-btn"
+                className="btn"
+                style={{ fontSize: "10px", padding: "2px 8px" }}
                 onClick={() => {
                   playBubbleSound();
                   setSpeechOpen(false);
                 }}
               >
-                💬 Open Delphi Chat
+                Chat with Delphi 🐬
               </Link>
               <button
-                className="btn-secondary companion-speech-btn"
+                className="btn"
+                style={{ fontSize: "10px", padding: "2px 8px" }}
                 onClick={() => setSpeechOpen(false)}
               >
-                ✕ Close
+                Dismiss
               </button>
             </div>
           </div>
@@ -184,8 +181,8 @@ export default function App() {
         <div
           className="companion"
           onClick={handleCompanionClick}
-          aria-label="Delphin companion"
-          title="Click to talk to Delphin"
+          aria-label="Delphi Dolphin Assistant"
+          title="Click to talk to Delphi"
         >
           🐬
         </div>
