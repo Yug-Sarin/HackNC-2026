@@ -1,4 +1,5 @@
 current_xp: int = 0
+current_money: int = 0 
 
 #Event class documentation below:
 
@@ -11,6 +12,7 @@ class Event:
     xp: int = 0
     duration: float
     event_id:int
+    player_money: int = 0
 
     def __init__(self, name:str, event_id: int, duration: float):
         """Initialize the base function"""
@@ -37,7 +39,18 @@ class Event:
         else:
             return 200
 
-        return self.xp
+    def calculate_money(self):
+
+        if self.duration <= 1.0 and self.duration > 0.0:
+            return 15
+        elif self.duration <= 2.0 and self.duration > 1.0:
+            return 30
+        elif self.duration <= 3.0 and self.duration > 2.0:
+            return 45
+        else:
+            return 60
+
+        return self.money
 
     def calculate_difficulty(self):
         """Calculate the difficulty of the event based on duration"""
@@ -88,7 +101,13 @@ class Profile:
         global current_xp
         current_xp += earned_xp
         self.completed_events.append(event.event_id)
-        return f"You earned {earned_xp} XP!"
+
+        earned_money = event.calculate_money()
+        global current_money
+        current_money += earned_money
+        self.completed_events.append(event.event_id)
+
+        return f"You earned {earned_xp} XP! You earned {earned_money} Money!"
 
 
 #Test the 2 classes

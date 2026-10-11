@@ -6,6 +6,12 @@ import random
 from backend.XP import Event, Profile
 from backend.cardPacks import Shop
 
+from google import genai
+from google.genai import types
+from dotenv import load_dotenv
+import os
+from XP import Profile
+
 app = FastAPI(title="HackNC-2026 API")
 
 app.add_middleware(
@@ -49,6 +55,7 @@ def create_event(payload: EventCreate):
         "duration": event.duration,
         "difficulty": event.calculate_difficulty(),
         "xp": event.calculate_xp(),
+        "money": event.calculate_money(),
         "description": event.description(),
     }
 
@@ -62,6 +69,7 @@ def list_events():
             "duration": event.duration,
             "difficulty": event.calculate_difficulty(),
             "xp": event.calculate_xp(),
+            "money": event.calculate_money(),
             "description": event.description(),
         })
     return results
@@ -206,13 +214,17 @@ def buy_pack(username: str, payload: CardPackRequest):
 
 @app.post("/api/delphin/chat")
 def chat_delphin(payload: ChatMessage):
-    responses = [
-        "You are doing amazing! Keep building your campus sustainability streak. 🌊",
-        "Small actions create big change. One volunteer step today makes tomorrow better. 🐬",
-        "You've got momentum—finish one more task and keep the energy going! 💪",
-        "Every clean-up, donation, and act of service matters. Keep going! 🌍",
-    ]
-    return {"response": random.choice(responses)}
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        config=types.GenerateContentConfig(
+            system_instruction=f"look through {profiles_db} and generate a helpful tip, fact about the enviroement, or give encoruagement "
+        ),
+    )
+        
+    return {"response": random.choice(response)}
 
 if __name__ == "__main__":
     import uvicorn
