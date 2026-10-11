@@ -4,13 +4,12 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Events from "./pages/Events";
 import Shop from "./pages/Shop";
-import Delphin from "./pages/Delphin";
 
 const companionMessages = [
   "I believe in you — tiny eco actions add up!",
-  "Let’s find a volunteer event and make campus greener.",
+  "Let's find a volunteer event and make campus greener.",
   "Every sustainable choice counts.",
-  "You’ve got this — keep building a better world.",
+  "You've got this — keep building a better world.",
   "Small steps today create a cleaner tomorrow."
 ];
 
@@ -21,6 +20,7 @@ export default function App() {
   const handleCompanionClick = () => {
     setSpeechOpen(true);
     setMessageIndex((prev) => (prev + 1) % companionMessages.length);
+    setTimeout(() => setSpeechOpen(false), 4000);
   };
 
   return (
@@ -33,7 +33,6 @@ export default function App() {
             <Link to="/profile">Profile</Link>
             <Link to="/events">Events</Link>
             <Link to="/shop">Shop</Link>
-            <Link to="/delphin">Delphin</Link>
           </div>
         </div>
       </nav>
@@ -44,7 +43,6 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/events" element={<Events />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/delphin" element={<Delphin />} />
         </Routes>
       </main>
 

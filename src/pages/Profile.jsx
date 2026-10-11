@@ -1,6 +1,18 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 
+const cardEmojis = {
+  🐟: { rarity: "common", color: "#86efac" },
+  🐠: { rarity: "common", color: "#86efac" },
+  🦑: { rarity: "uncommon", color: "#5ac8fa" },
+  🦈: { rarity: "rare", color: "#f59e0b" },
+  🐙: { rarity: "rare", color: "#f59e0b" },
+  🦐: { rarity: "common", color: "#86efac" },
+  🦞: { rarity: "uncommon", color: "#5ac8fa" },
+  🐚: { rarity: "uncommon", color: "#5ac8fa" },
+  👑: { rarity: "legendary", color: "#ff3b30" },
+};
+
 export default function Profile() {
   const [username, setUsername] = useState("");
   const [profile, setProfile] = useState(null);
@@ -86,7 +98,7 @@ export default function Profile() {
         <>
           <div className="card">
             <h2>📊 Your Stats</h2>
-            <div className="grid">
+            <div className="grid stats-grid">
               <div className="stat-card">
                 <div className="stat-label">Total XP</div>
                 <div className="stat-value">{profile.xp}</div>
@@ -111,10 +123,16 @@ export default function Profile() {
             {cards.length === 0 ? (
               <p className="empty">No cards yet. Visit the shop to buy packs.</p>
             ) : (
-              <div className="grid">
-                {cards.map((card, idx) => (
-                  <div key={idx} className="card-item">{card}</div>
-                ))}
+              <div className="cards-grid">
+                {cards.map((card, idx) => {
+                  const cardInfo = cardEmojis[card] || { rarity: "unknown", color: "#888" };
+                  return (
+                    <div key={idx} className="card-display" style={{ borderColor: cardInfo.color }}>
+                      <div className="card-emoji">{card}</div>
+                      <div className="card-rarity">{cardInfo.rarity}</div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
